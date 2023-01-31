@@ -5,9 +5,9 @@ project(SDL-GUI VERSION 0.1)
 set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_PREFIX_PATH 
-"F:\\Tools\\SDL2\\SDL2-2.26.1"
-"F:\\Tools\\SDL2\\SDL2_ttf-2.20.1"
-"F:\\Tools\\SDL2\\SDL2_image-2.6.2")
+"${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2-2.26.1"
+"${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_ttf-2.20.1"
+"${CMAKE_CURRENT_LIST_DIR}/SDL2/SDL2_image-2.6.1")
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)

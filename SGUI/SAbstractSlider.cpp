@@ -82,18 +82,18 @@ void SAbstractSlider::paintEvent()
 	{
 		//画出凹槽
 		painter.fillRect({ d->x, d->y + d->h / 3, d->w, d->h / 3 });
-		//画出手柄
-		//painter.drawEllipse(m_handleRect);
-		painter.fillRect(m_handleRect);
+
 	}
 	else if (m_orientation == SGUI::Vertical)
 	{
 		//画出凹槽
 		painter.fillRect({ d->x + d->w / 3, d->y, d->w / 3, d->h });
-		//画出手柄
-		//painter.drawEllipse(m_handleRect);
-		painter.fillRect(m_handleRect);
 	}
+	//画出手柄
+
+	painter.setColor(SColor(191, 191, 191));
+	//painter.drawEllipse(m_handleRect);
+	painter.fillRect(m_handleRect);
 }
 
 void SAbstractSlider::mousePressEvent(SDL_MouseButtonEvent* ev)
@@ -159,6 +159,16 @@ void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 			}		
 		}	
 #endif
+	}
+
+	if (ev->x >= m_handleRect.x && ev->x <= m_handleRect.x + m_handleRect.w &&
+		ev->y >= m_handleRect.y && ev->y <= m_handleRect.y + m_handleRect.h)
+	{
+		m_hoverHandle = true;
+	}
+	else
+	{
+		m_hoverHandle = false;
 	}
 }
 

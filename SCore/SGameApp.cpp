@@ -1,6 +1,4 @@
 ﻿#include"SGameApp.h"
-#include<filesystem>
-#include<direct.h>
 #include"STextureManager.h"
 #include"STTF_FontManager.h"
 
@@ -18,18 +16,6 @@ SGameApp::SGameApp(int argc, char* argv[])
 {
 	gIns = this;
 
-#ifdef CMAKE_BUILD
-	//设置当前工作路径，主要是为了在使用CMake构建时，能够和Vs项目一样，使用相对文件路径
-	char cwd[128] = { 0 };
-	if (getcwd(cwd, 128))
-	{
-		auto parentPath = std::filesystem::path(cwd).parent_path();
-		if (chdir(parentPath.string().c_str()) != 0)
-		{
-			SDL_Log("change cwd failed");
-		}
-	}
-#endif // CMAKE_BUILD
 }
 
 SGameApp::~SGameApp()
@@ -167,6 +153,88 @@ void SGameApp::update()
 
 }
 
+void SDL_RenderDrawEllipse(SDL_Renderer* render, SDL_Rect* rect)
+{
+	//半轴长
+	int aHalf = rect->w / 2;
+	int bHalf = rect->h / 2;
+
+	int x, y;
+	//求出圆上每个坐标点
+	for (float angle = 0; angle < 360; angle += 0.1)
+	{
+		x = (rect->x + aHalf) + aHalf * SDL_cos(angle);
+		y = (rect->y + bHalf) + bHalf * SDL_sin(angle);
+		SDL_RenderDrawPoint(render, x, y);
+	}
+}
+
+void drawArc(SDL_Renderer* renderer, SDL_Rect* rect, double startAngle, double endAngle);
+void drawRountRect(SDL_Renderer* renderer, SDL_Rect* rect, int hRadius, int vRadius);
+
+void drawArc(SDL_Renderer* renderer, SDL_Rect* rect, double startAngle, double endAngle)
+{
+	//半轴长
+	int aHalf = rect->w / 2;
+	int bHalf = rect->h / 2;
+
+	int x, y;
+	//求出圆上每个坐标点
+	for (float angle = startAngle; angle < endAngle; angle += 0.2)
+	{
+		auto radian = 0.01745 * angle;
+		x = (rect->x + aHalf) + aHalf * SDL_cos(-radian);
+		y = (rect->y + bHalf) + bHalf * SDL_sin(-radian);
+		SDL_RenderDrawPoint(renderer, x, y);
+	}
+}
+void drawArc(SDL_Renderer* renderer, int x,int y,int hRadius,int vRadius, double startAngle, double endAngle)
+{
+	//SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	//SDL_Rect r = { x,y,hRadius*2,vRadius*2 };
+	//SDL_RenderFillRect(renderer, &r);
+	//半轴长
+	int aHalf = hRadius;
+	int bHalf = vRadius;
+	//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	int tx,ty;
+	//求出圆上每个坐标点
+	for (float angle = startAngle; angle < endAngle; angle += 0.2)
+	{
+		auto radian = 0.01745 * angle;
+		tx = (x+aHalf) + aHalf * SDL_cos(-radian);
+		ty = (y+bHalf) + bHalf * SDL_sin(-radian);
+		SDL_RenderDrawPoint(renderer, tx, ty);
+	}
+}
+
+void drawRountRect(SDL_Renderer* renderer, SDL_Rect* rect, int hRadius, int vRadius)
+{
+	SDL_RenderDrawLine(renderer, rect->x + hRadius, rect->y, rect->x + rect->w - hRadius, rect->y);
+	SDL_RenderDrawLine(renderer, rect->x+rect->w, rect->y + vRadius, rect->x+rect->w, rect->y + rect->h - vRadius);
+	SDL_RenderDrawLine(renderer, rect->x + hRadius, rect->y+rect->h, rect->x + rect->w - hRadius, rect->y + rect->h);
+	SDL_RenderDrawLine(renderer, rect->x, rect->y + vRadius, rect->x, rect->y + rect->h - vRadius);
+
+
+	drawArc(renderer, rect->x,rect->y,hRadius,vRadius,90,180);
+	drawArc(renderer, rect->x + rect->w - hRadius*2,rect->y, hRadius, vRadius,0,90);
+	drawArc(renderer, rect->x + rect->w-hRadius*2,rect->y+rect->h-vRadius*2, hRadius, vRadius,270,360);
+	drawArc(renderer, rect->x,rect->y + rect->h-vRadius*2, hRadius, vRadius,180,270);
+}
+
+void drawFillRountRect(SDL_Renderer* renderer, SDL_Rect* rect, int hRadius, int vRadius)
+{
+	SDL_Rect r = *rect;
+	while (r.w >= 0 && r.h >= 0)
+	{
+		drawRountRect(renderer, &r, hRadius--, vRadius--);
+		++r.x;
+		++r.y;
+		r.w -= 2;
+		r.h -= 2;		
+	}
+}
+
 void SGameApp::render()
 {
 	sApp->GUIManager()->draw();
@@ -183,5 +251,6 @@ void SGameApp::handleEvents()
 		sApp->GUIManager()->event(&events);
 	}
 }
+
 
 

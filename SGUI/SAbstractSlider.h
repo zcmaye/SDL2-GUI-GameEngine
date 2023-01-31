@@ -29,6 +29,8 @@ protected:
 	void showEvent(SDL_WindowEvent* ev);
 
 	SDL_Rect m_handleRect;	//手柄矩形区域
+	SColor m_handColor = SColor(191, 191, 191);
+	bool m_hoverHandle = false;
 	void updateRatio();	//值和凹槽长度比率
 private:
 	bool m_isPressHandle = false;	//是否按下了手柄
@@ -39,6 +41,7 @@ private:
 	int m_step = 1;		//步长
 	int m_distance = 0;		//滑块距离左边/上边的距离
 	double m_ratio = 0.0;			//值和凹槽长度比率
+
 
 };
 

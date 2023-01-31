@@ -13,22 +13,6 @@
 #include<cstdint>
 #include<map>
 
-#ifndef CMAKE_BUILD
-#ifdef _WIN64
-#pragma comment(lib,"x64/SDL2.lib")
-#pragma comment(lib,"x64/SDL2main.lib")
-#pragma comment(lib,"x64/SDL2_image.lib")
-#pragma comment(lib,"x64/SDL2_ttf.lib")
-#elif defined(_WIN32)
-#pragma comment(lib,"x86/SDL2.lib")
-#pragma comment(lib,"x86/SDL2main.lib")
-#pragma comment(lib,"x86/SDL2_image.lib")
-#pragma comment(lib,"x86/SDL2_ttf.lib")
-#endif //_WIN64
-#endif //CMAKE_BUILD
-
-
-
 class SWidget;
 using SWidgetList = std::vector<SWidget*>;
 

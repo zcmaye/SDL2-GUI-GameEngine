@@ -45,7 +45,9 @@ SWidgetList SGUIManager::widgets(const std::string& objname)
 
 void SGUIManager::removeWidget(SWidget* w)
 {
-	std::remove(m_widgets.begin(), m_widgets.end(), w);
+	auto it = std::remove(m_widgets.begin(), m_widgets.end(), w);
+	if(it!=m_widgets.end())
+		m_widgets.erase(it, m_widgets.end());
 }					
 void SGUIManager::removeWidget(const std::string& objname)
 {

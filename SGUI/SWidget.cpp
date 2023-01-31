@@ -103,8 +103,8 @@ bool SWidget::event(SDL_Event* ev)
 			mouseReleaseEvent(&ev->button);
 		break;
 	case SDL_MOUSEMOTION:
-		if (d->kFocus)
-			mouseMoveEvent(&ev->motion);
+		//if (d->kFocus)
+		mouseMoveEvent(&ev->motion);
 		if (contains(SDL_Point{ ev->button.x,ev->button.y }))
 		{
 			d->isHovered = true;

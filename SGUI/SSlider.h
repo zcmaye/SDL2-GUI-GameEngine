@@ -8,6 +8,7 @@ public:
 	SSlider();
 protected:
 	void paintEvent()override;
+	void mouseMoveEvent(SDL_MouseMotionEvent* ev)override;
 };
 
 #endif

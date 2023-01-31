@@ -25,18 +25,6 @@
     <Filter Include="源文件\SGUI">
       <UniqueIdentifier>{6c524507-f9c9-4305-9a41-07d3f7c4e783}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件\platform">
-      <UniqueIdentifier>{307ee480-45fc-46e9-9cd6-bb65e87240e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件\platform\windows">
-      <UniqueIdentifier>{3074b708-40f3-4be1-92d8-2733878ee462}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\plaftorm">
-      <UniqueIdentifier>{e9ce7ff8-ad49-4fa8-99dc-a6d2c10a47be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\plaftorm\windows">
-      <UniqueIdentifier>{4d31e597-7f10-4991-94b2-a347ec593235}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,14 +69,8 @@
     <ClCompile Include="SGUI\SAbstractButton.cpp">
       <Filter>源文件\SGUI</Filter>
     </ClCompile>
-    <ClCompile Include="SGUI\SImageButton.cpp">
-      <Filter>源文件\SGUI</Filter>
-    </ClCompile>
     <ClCompile Include="SGUI\SSwitchButton.cpp">
       <Filter>源文件\SGUI</Filter>
-    </ClCompile>
-    <ClCompile Include="plaform\windows\SFileVersion.cpp">
-      <Filter>源文件\plaftorm\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,14 +116,8 @@
     <ClInclude Include="SGUI\SAbstractButton.h">
       <Filter>头文件\SGUI</Filter>
     </ClInclude>
-    <ClInclude Include="SGUI\SImageButton.h">
-      <Filter>头文件\SGUI</Filter>
-    </ClInclude>
     <ClInclude Include="SGUI\SSwitchButton.h">
       <Filter>头文件\SGUI</Filter>
-    </ClInclude>
-    <ClInclude Include="plaform\windows\SFileVersion.h">
-      <Filter>头文件\platform\windows</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

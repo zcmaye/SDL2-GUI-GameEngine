@@ -2,6 +2,7 @@
 #include "SGameApp.h"
 SPainter::SPainter(SDL_Renderer* target)
 	:ren(target)
+	, m_color({ 225,225,225 })
 {
 
 }
@@ -109,4 +110,71 @@ void SPainter::drawText(SDL_Rect* rect, const std::string& text, SGUI::Alignment
 
 	SDL_Rect dr = { hspace + rect->x,vspace + rect->y,textw,texth };
 	STextureManager::drawTexture(tex, &dr);
+}
+
+
+
+
+void SPainter::drawArc(SDL_Rect* rect, double startAngle, double endAngle)
+{
+	//半轴长
+	int aHalf = rect->w / 2;
+	int bHalf = rect->h / 2;
+
+	int x, y;
+	//求出圆上每个坐标点
+	for (float angle = startAngle; angle < endAngle; angle += 0.2)
+	{
+		auto radian = 0.01745 * angle;
+		x = (rect->x + aHalf) + aHalf * SDL_cos(-radian);
+		y = (rect->y + bHalf) + bHalf * SDL_sin(-radian);
+		SDL_RenderDrawPoint(ren, x, y);
+	}
+}
+
+void SPainter::drawArc(int x, int y, int hRadius, int vRadius, double startAngle, double endAngle)
+{
+	//SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	//SDL_Rect r = { x,y,hRadius*2,vRadius*2 };
+	//SDL_RenderFillRect(renderer, &r);
+	//半轴长
+	int aHalf = hRadius;
+	int bHalf = vRadius;
+	//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	int tx, ty;
+	//求出圆上每个坐标点
+	for (float angle = startAngle; angle < endAngle; angle += 0.2)
+	{
+		auto radian = 0.01745 * angle;
+		tx = (x + aHalf) + aHalf * SDL_cos(-radian);
+		ty = (y + bHalf) + bHalf * SDL_sin(-radian);
+		SDL_RenderDrawPoint(ren, tx, ty);
+	}
+}
+
+void SPainter::drawRountRect(SDL_Rect* rect, int hRadius, int vRadius)
+{
+	SDL_RenderDrawLine(ren, rect->x + hRadius, rect->y, rect->x + rect->w - hRadius, rect->y);
+	SDL_RenderDrawLine(ren, rect->x + rect->w, rect->y + vRadius, rect->x + rect->w, rect->y + rect->h - vRadius);
+	SDL_RenderDrawLine(ren, rect->x + hRadius, rect->y + rect->h, rect->x + rect->w - hRadius, rect->y + rect->h);
+	SDL_RenderDrawLine(ren, rect->x, rect->y + vRadius, rect->x, rect->y + rect->h - vRadius);
+
+
+	drawArc(rect->x, rect->y, hRadius, vRadius, 90, 180);
+	drawArc(rect->x + rect->w - hRadius * 2, rect->y, hRadius, vRadius, 0, 90);
+	drawArc(rect->x + rect->w - hRadius * 2, rect->y + rect->h - vRadius * 2, hRadius, vRadius, 270, 360);
+	drawArc(rect->x, rect->y + rect->h - vRadius * 2, hRadius, vRadius, 180, 270);
+}
+
+void SPainter::drawFillRountRect( SDL_Rect* rect, int hRadius, int vRadius)
+{
+	SDL_Rect r = *rect;
+	while (r.w >= 0 && r.h >= 0)
+	{
+		drawRountRect(&r, hRadius--, vRadius--);
+		++r.x;
+		++r.y;
+		r.w -= 2;
+		r.h -= 2;
+	}
 }
