@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="头文件\SCore">
+      <UniqueIdentifier>{0886afb5-4e29-4c04-8ee9-5565f1633094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\SCore">
+      <UniqueIdentifier>{5e50a08e-2d4c-4e7a-8257-b65d9ca51c26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\SGUI">
+      <UniqueIdentifier>{ea2d6999-e406-4de2-a49b-0fdd79d70dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\SGUI">
+      <UniqueIdentifier>{6c524507-f9c9-4305-9a41-07d3f7c4e783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\platform">
+      <UniqueIdentifier>{307ee480-45fc-46e9-9cd6-bb65e87240e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\platform\windows">
+      <UniqueIdentifier>{3074b708-40f3-4be1-92d8-2733878ee462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\plaftorm">
+      <UniqueIdentifier>{e9ce7ff8-ad49-4fa8-99dc-a6d2c10a47be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\plaftorm\windows">
+      <UniqueIdentifier>{4d31e597-7f10-4991-94b2-a347ec593235}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\STTF_FontManager.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\SGameApp.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\STextureManager.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\SVector2D.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SAbstractSlider.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SButton.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SGUIManager.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SPainter.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SSlider.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SWidget.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\SFont.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SCore\SColor.cpp">
+      <Filter>源文件\SCore</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SAbstractButton.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SImageButton.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SGUI\SSwitchButton.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="plaform\windows\SFileVersion.cpp">
+      <Filter>源文件\plaftorm\windows</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SCore\Configer.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\STTF_FontManager.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SGameApp.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\STextureManager.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SVector2D.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SAbstractSlider.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SButton.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SGUIManager.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SPainter.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SSlider.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SWidget.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SFont.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SColor.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SAbstractButton.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SImageButton.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SSwitchButton.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="plaform\windows\SFileVersion.h">
+      <Filter>头文件\platform\windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
