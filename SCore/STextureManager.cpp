@@ -112,10 +112,8 @@ bool STextureManager::precacheTexture(const std::string& tag, const std::string&
 	{
 		return true;
 	}
-	else
-	{
-		SDL_DestroyTexture(tex);
-	}
+	SDL_DestroyTexture(tex);
+	return false;
 }
 
 bool STextureManager::precacheTexture(const std::string& tag, const SDL_Texture* tex)

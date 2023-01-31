@@ -1,4 +1,6 @@
 ﻿#include"SGameApp.h"
+#include<filesystem>
+#include<direct.h>
 #include"STextureManager.h"
 #include"STTF_FontManager.h"
 
@@ -15,6 +17,19 @@ SGameApp* gIns = nullptr;
 SGameApp::SGameApp(int argc, char* argv[])
 {
 	gIns = this;
+
+#ifdef CMAKE_BUILD
+	//设置当前工作路径，主要是为了在使用CMake构建时，能够和Vs项目一样，使用相对文件路径
+	char cwd[128] = { 0 };
+	if (getcwd(cwd, 128))
+	{
+		auto parentPath = std::filesystem::path(cwd).parent_path();
+		if (chdir(parentPath.string().c_str()) != 0)
+		{
+			SDL_Log("change cwd failed");
+		}
+	}
+#endif // CMAKE_BUILD
 }
 
 SGameApp::~SGameApp()
