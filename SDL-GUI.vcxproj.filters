@@ -78,6 +78,9 @@
     <ClCompile Include="SGUI\SLineEdit.cpp">
       <Filter>源文件\SGUI</Filter>
     </ClCompile>
+    <ClCompile Include="SCore\SString.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SCore\Configer.h">
@@ -130,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="SGUI\SLineEdit.h">
       <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SString.h">
+      <Filter>头文件\SCore</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

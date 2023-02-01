@@ -133,7 +133,7 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	//btn->setText("play");
 	*/
 
-	sApp->GUIManager()->addWidget(new SLineEdit)->move(200,0);
+	sApp->GUIManager()->addWidget(new SLineEdit)->move(200,50);
 
 	return isRunning;
 }

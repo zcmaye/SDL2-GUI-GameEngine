@@ -1,3 +1,3 @@
 ﻿  SLineEdit.cpp
-E:\GitHub\SDL-GUI\SGUI\SLineEdit.cpp(88,21): warning C4267: “+=”: 从“size_t”转换到“int”，可能丢失数据
-  SDL-GUI.vcxproj -> E:\GitHub\SDL-GUI\bin\SDL-GUI.exe
+E:\gitHub\SDL2-GUI-GameEngine\SCore\SString.h(82,25): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  SDL-GUI.vcxproj -> E:\gitHub\SDL2-GUI-GameEngine\bin\SDL-GUI.exe

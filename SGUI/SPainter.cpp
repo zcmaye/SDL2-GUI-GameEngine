@@ -1,7 +1,7 @@
 ﻿#include "SPainter.h"
 #include "SGameApp.h"
 SPainter::SPainter(SDL_Renderer* target)
-	:ren(target)
+	: ren(target)
 	, m_color({ 225,225,225 })
 {
 

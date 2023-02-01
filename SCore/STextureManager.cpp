@@ -51,6 +51,7 @@ SDL_Texture* STextureManager::cacheTexture(const std::string& filename)
 SDL_Texture* STextureManager::loadText(const std::string& text, const SFont& font, const SColor& color)
 {
 	auto sfc = TTF_RenderUTF8_Blended(font, text.c_str(),color);
+	//auto sfc = TTF_RenderUTF8(font, text.c_str(), color,SColor(125,160,25));
 	if (!sfc)
 	{
 		SDL_Log("TTF_Render faild:%s", SDL_GetError());

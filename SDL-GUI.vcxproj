@@ -158,6 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SCore\SColor.cpp" />
     <ClCompile Include="SCore\SFont.cpp" />
+    <ClCompile Include="SCore\SString.cpp" />
     <ClCompile Include="SCore\STTF_FontManager.cpp" />
     <ClCompile Include="SCore\SGameApp.cpp" />
     <ClCompile Include="SCore\STextureManager.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="SCore\Configer.h" />
     <ClInclude Include="SCore\SColor.h" />
     <ClInclude Include="SCore\SFont.h" />
+    <ClInclude Include="SCore\SString.h" />
     <ClInclude Include="SCore\STTF_FontManager.h" />
     <ClInclude Include="SCore\SGameApp.h" />
     <ClInclude Include="SCore\STextureManager.h" />
