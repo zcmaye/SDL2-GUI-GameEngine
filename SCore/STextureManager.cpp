@@ -101,6 +101,11 @@ void STextureManager::drawTexture(SDL_Texture* tex, int x, int y)
 	STextureManager::drawTexture(tex, &r);
 }
 
+void STextureManager::drawTexture(SDL_Texture* tex, const SDL_Rect* srcRect, const SDL_Rect* dstRect)
+{
+	SDL_RenderCopy(SGameApp::renderer, tex, srcRect, dstRect);
+}
+
 bool STextureManager::precacheTexture(const std::string& tag, const std::string& filename)
 {
 	auto tex = loadTexture(filename);

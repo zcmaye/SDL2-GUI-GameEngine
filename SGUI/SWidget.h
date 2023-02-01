@@ -19,7 +19,7 @@ struct SWidgetPrivate
 	SColor bColor;
 	SColor fColor;
 	SColor hColor;
-	SFont	 font = SFont("楷体",16);
+	SFont	 font = SFont("微软雅黑",16);
 
 
 	SWidgetPrivate()
@@ -27,9 +27,9 @@ struct SWidgetPrivate
 		isVisible = true;
 		isHovered = false;
 		kFocus = false;
-		bColor = SColor(225, 225, 225);
+		bColor = SColor(232, 232, 236);
 		fColor = SColor(0,0,0);
-		hColor = SColor(229, 241, 251);
+		hColor = SColor(194, 195, 201);
 	}
 };
 

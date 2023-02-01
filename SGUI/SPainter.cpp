@@ -28,6 +28,11 @@ void SPainter::setFont(const SFont& font)
 	m_font = font;
 }
 
+void SPainter::drawLine(int x1, int y1, int x2, int y2)
+{
+	SDL_RenderDrawLine(sApp->renderer, x1, y1, x2, y2);
+}
+
 void SPainter::drawRect(SDL_Rect* rect)
 {
 	SDL_RenderDrawRect(ren, rect);
@@ -54,12 +59,17 @@ void SPainter::drawText(int x, int y, const std::string& text)
 	STextureManager::drawTexture(tex, x,y);
 }
 
-void SPainter::drawText(SDL_Rect* rect, const std::string& text, SGUI::Alignments alignment)
+void SPainter::drawText(SDL_Rect* rect, const std::string& text, SGUI::Alignments alignment, bool clip)
 {
 	auto tex = sApp->TextureManager()->cacheText(text, m_font, m_color);
 	if (!tex)
 		return;
 
+	drawText(rect, tex, alignment, clip);
+}
+
+void SPainter::drawText(SDL_Rect* rect, SDL_Texture* tex, SGUI::Alignments alignment, bool clip)
+{
 	int textw = 0;
 	int texth = 0;
 	SDL_QueryTexture(tex, nullptr, nullptr, &textw, &texth);
@@ -90,26 +100,45 @@ void SPainter::drawText(SDL_Rect* rect, const std::string& text, SGUI::Alignment
 		hspace = (rect->w - textw) / 2;
 		vspace = (rect->h - texth) / 2;
 		break;
-	case  SGUI::Alignment::AlignBottom |  SGUI::Alignment::AlignHCenter:
+	case  SGUI::Alignment::AlignBottom | SGUI::Alignment::AlignHCenter:
 		vspace = rect->h - texth;
 		hspace = (rect->w - textw) / 2;
 		break;
-	case  SGUI::Alignment::AlignTop |  SGUI::Alignment::AlignHCenter:
+	case  SGUI::Alignment::AlignTop | SGUI::Alignment::AlignHCenter:
 		vspace = 0;
 		hspace = (rect->w - textw) / 2;
 		break;
-	case  SGUI::Alignment::AlignLeft |  SGUI::Alignment::AlignVCenter:
+	case  SGUI::Alignment::AlignLeft | SGUI::Alignment::AlignVCenter:
 		hspace = 0;
 		vspace = (rect->h - texth) / 2;
 		break;
-	case  SGUI::Alignment::AlignRight |  SGUI::Alignment::AlignVCenter:
+	case  SGUI::Alignment::AlignRight | SGUI::Alignment::AlignVCenter:
 		hspace = rect->w - textw;
 		vspace = (rect->h - texth) / 2;
 		break;
 	}
 
-	SDL_Rect dr = { hspace + rect->x,vspace + rect->y,textw,texth };
-	STextureManager::drawTexture(tex, &dr);
+	if (!clip)
+	{
+		SDL_Rect dr = { hspace + rect->x,vspace + rect->y,textw,texth };
+		STextureManager::drawTexture(tex, &dr);
+	}
+	else
+	{
+		//计算裁切矩形
+		SDL_Rect srcrect = { 0,0,textw ,texth };
+		srcrect.w = (textw > rect->w ? rect->w : textw);
+		srcrect.h = (texth > rect->h ? rect->h : texth);
+		//计算目标矩形
+		SDL_Rect dstrect = { hspace + rect->x,vspace + rect->y,srcrect.w,srcrect.h };
+		//绘制
+		STextureManager::drawTexture(tex, &srcrect, &dstrect);
+	}
+}
+
+void SPainter::drawTexture(const SDL_Rect& target, const SDL_Texture* tex, const SDL_Rect& srcrect)
+{
+	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex, &target, &srcrect);
 }
 
 
