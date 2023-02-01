@@ -62,6 +62,15 @@ RETRUN_TYPE  SWidget::setGeometry(int x, int y, int w, int h)
 	setFixedSize(w, h);
 	RETURN_VALUE;
 }
+SDL_Rect SWidget::geometry() const
+{
+	return SDL_Rect{ d->x,d->y,d->w,d->h };
+}
+void SWidget::raise()
+{
+	sApp->GUIManager()->removeWidget(this);
+	sApp->GUIManager()->addWidget(this);
+}
 bool SWidget::event(SDL_Event* ev)
 {
 	if (!d->isVisible)

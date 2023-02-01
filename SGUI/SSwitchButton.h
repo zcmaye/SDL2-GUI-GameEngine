@@ -1,7 +1,8 @@
 ﻿#ifndef SSWITCHBUTTON_H_
 #define SSWITCHBUTTON_H_
-#include"SAbstractButton.h"
+#include "SAbstractButton.h"
 
+class SIndicator;
 class SSwitchButton : public SAbstractButton
 {
 public:
@@ -20,6 +21,8 @@ private:
 	std::string m_onImgFile;
 	std::string m_onHoverImgFile;
 	bool m_state;
+
+	SIndicator* m_indicator;
 };
 
 #endif // !SBUTTON_H_

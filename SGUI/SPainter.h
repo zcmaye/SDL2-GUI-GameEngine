@@ -25,6 +25,11 @@ public:
 	void drawArc( SDL_Rect* rect, double startAngle, double endAngle);
 	void drawArc( int x, int y, int hRadius, int vRadius, double startAngle, double endAngle);
 
+	void drawElipse(SDL_Rect* rect);
+	void drawFillElipse(SDL_Rect* rect);
+	void drawElipse(const SDL_Rect& rect);
+	void drawFillElipse(const SDL_Rect& rect);
+
 	void drawRountRect(SDL_Rect* rect, int hRadius, int vRadius);
 	void drawFillRountRect(SDL_Rect* rect, int hRadius, int vRadius);
 private:

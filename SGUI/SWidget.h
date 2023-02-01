@@ -61,11 +61,18 @@ public:
 	inline RETRUN_TYPE setFocus() { d->kFocus = true; RETURN_VALUE;};
 	inline RETRUN_TYPE clearFocus() { d->kFocus = false; RETURN_VALUE;};
 
+	inline int& rx() { return d->x; }
+	inline int& ry() { return d->y; }
+	inline void setWidth(int w) { d->w = w; }
+	inline void setHeight(int h) { d->h = h; }
 	int width()const;
 	int height()const;
 	RETRUN_TYPE move(int x, int y);
 	RETRUN_TYPE setFixedSize(int w, int h);
 	RETRUN_TYPE setGeometry(int x, int y, int w, int h);
+	SDL_Rect geometry()const;
+
+	void raise();
 
 	inline RETRUN_TYPE setBackgroundColor(SColor color) { d->bColor = color;  RETURN_VALUE;};
 	inline RETRUN_TYPE setforegroundColor(SColor color) { d->fColor = color; RETURN_VALUE;};

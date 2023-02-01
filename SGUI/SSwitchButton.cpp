@@ -1,15 +1,12 @@
 ﻿#include "SSwitchButton.h"
 #include "SPainter.h"
 #include "SGameApp.h"
-
+#include "SIndicator.h"
 SSwitchButton::SSwitchButton()
-	:m_offImgFile("switch/off")
-	,m_offHoverImgFile("switch/off-hover")
-	,m_onImgFile("switch/on")
-	,m_onHoverImgFile("switch/on-hover")
-	,m_state(false)
+	:m_state(false)
 {
-	setFixedSize(128, 32);
+	m_indicator = sApp->GUIManager()->addWidget(new SIndicator(this,SIndicator::Elipse));
+	setFixedSize(64, 32);
 	//setOffTexture("assets/images/switch-off.png");
 	//setOnTexture("assets/images/switch-on.png");
 }
@@ -31,45 +28,38 @@ void SSwitchButton::paintEvent()
 {
 	SPainter painter(sApp->renderer);
 	SDL_Rect r = { d->x,d->y,d->w,d->h };
-	//绘制边框
-	painter.setColor(SColor(225, 225, 225));
-	painter.drawRountRect(&r, 20, d->h/2);
-	//绘制指示器
-	r.x = r.x + (m_state ? r.w / 2-1 : 1);
-	r.y = r.y + 1;
-	r.w = r.w / 2;
-	r.h = r.h - 2;
-	painter.setColor(SColor(191, 191, 191));
-	painter.drawFillRountRect(&r, 20, d->h / 2);
-
-
-	/*
-	if (!text().empty())
+	if (m_offImgFile.empty() && m_onImgFile.empty())
 	{
-		setFixedSize(d->w + m_textW, d->h);
-	}
+		//绘制边框
+		painter.setColor(d->bColor);
+		painter.drawRountRect(&r, 20, d->h / 2);
 
-	SPainter painter(sApp->renderer);
-	SDL_Rect rect = { d->x,d->y,d->w - m_textW ,d->h };
-
-	//绘制图片
-	if (!m_state)
-	{
-		STextureManager::drawTexture(sApp->TextureManager()->getTexture((d->isHovered && !m_offHoverImgFile.empty())? m_offHoverImgFile : m_offImgFile), &rect);
+		//绘制指示器
+		int spacing = 4;					//指示器距离上下左右边框的距离
+		int minSize = SDL_min(r.w, r.h);	//宽高最小的作为指示器的宽度和高度
+		m_indicator->rx() = r.x + (m_state ? r.w - minSize + spacing : spacing);
+		m_indicator->ry() = r.y + spacing;
+		m_indicator->setFixedSize(minSize - spacing * 2, minSize - spacing * 2);
+		
+		//int spacing = 4;					//指示器距离上下左右边框的距离
+		//int minSize = SDL_min(r.w, r.h);	//宽高最小的作为指示器的宽度和高度
+		//r.x = r.x + (m_state ? r.w - minSize + spacing : spacing);
+		//r.y = r.y + spacing;
+		//r.w = r.h = minSize - spacing * 2;
+		//painter.drawFillElipse(&r, d->isHovered ? m_handColor :SColor(191, 191, 191));
 	}
-	else 
+	else
 	{
-		STextureManager::drawTexture(sApp->TextureManager()->getTexture((d->isHovered && !m_onHoverImgFile.empty())? m_onHoverImgFile : m_onImgFile), &rect);
+		//绘制图片
+		if (!m_state)
+		{
+			STextureManager::drawTexture(sApp->TextureManager()->getTexture((d->isHovered && !m_offHoverImgFile.empty()) ? m_offHoverImgFile : m_offImgFile), &r);
+		}
+		else
+		{
+			STextureManager::drawTexture(sApp->TextureManager()->getTexture((d->isHovered && !m_onHoverImgFile.empty()) ? m_onHoverImgFile : m_onImgFile), &r);
+		}
 	}
-	//绘制文字
-	//if (!text().empty())
-	//{
-	//	painter.setFont(d->font);
-	//	painter.setColor(d->fColor);
-	//	SDL_Rect r = {d->x + d->w - m_textW,d->y,m_textW,d->h};
-	//	painter.drawText(d->x + d->w - m_textW, d->y, text());
-	//}
-	*/
 }
 
 void SSwitchButton::mousePressEvent(SDL_MouseButtonEvent* ev)

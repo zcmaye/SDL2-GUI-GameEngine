@@ -1,6 +1,7 @@
 ﻿#include "SSlider.h"
 #include "SPainter.h"
 #include "SGameApp.h"
+#include "SIndicator.h"
 SSlider::SSlider()
 {
 	setFixedSize(200, 10);
@@ -15,9 +16,9 @@ void SSlider::paintEvent()
 	painter.setColor(d->bColor);
 	painter.fillRect({ d->x, d->y, d->w, d->h });
 	//画出手柄
-	//painter.drawEllipse(m_handleRect);
-	painter.setColor(m_hoverHandle ? d->hColor : m_handColor);
-	painter.fillRect(m_handleRect);
+	m_indicator->raise();
+	//painter.setColor(m_hoverHandle ? d->hColor : m_handColor);
+	//painter.fillRect(m_handleRect);
 }
 
 void SSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)

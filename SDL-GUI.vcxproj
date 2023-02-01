@@ -166,6 +166,7 @@
     <ClCompile Include="SGUI\SAbstractSlider.cpp" />
     <ClCompile Include="SGUI\SButton.cpp" />
     <ClCompile Include="SGUI\SGUIManager.cpp" />
+    <ClCompile Include="SGUI\SIndicator.cpp" />
     <ClCompile Include="SGUI\SPainter.cpp" />
     <ClCompile Include="SGUI\SSlider.cpp" />
     <ClCompile Include="SGUI\SSwitchButton.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="SGUI\SAbstractSlider.h" />
     <ClInclude Include="SGUI\SButton.h" />
     <ClInclude Include="SGUI\SGUIManager.h" />
+    <ClInclude Include="SGUI\SIndicator.h" />
     <ClInclude Include="SGUI\SPainter.h" />
     <ClInclude Include="SGUI\SSlider.h" />
     <ClInclude Include="SGUI\SSwitchButton.h" />

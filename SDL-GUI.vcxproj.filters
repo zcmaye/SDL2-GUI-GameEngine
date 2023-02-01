@@ -72,6 +72,9 @@
     <ClCompile Include="SGUI\SSwitchButton.cpp">
       <Filter>源文件\SGUI</Filter>
     </ClCompile>
+    <ClCompile Include="SGUI\SIndicator.cpp">
+      <Filter>源文件\SGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SCore\Configer.h">
@@ -117,6 +120,9 @@
       <Filter>头文件\SGUI</Filter>
     </ClInclude>
     <ClInclude Include="SGUI\SSwitchButton.h">
+      <Filter>头文件\SGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SGUI\SIndicator.h">
       <Filter>头文件\SGUI</Filter>
     </ClInclude>
   </ItemGroup>

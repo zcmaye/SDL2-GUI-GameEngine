@@ -152,6 +152,30 @@ void SPainter::drawArc(int x, int y, int hRadius, int vRadius, double startAngle
 	}
 }
 
+void SPainter::drawElipse(SDL_Rect* rect)
+{
+	drawArc(rect, 0, 360);
+}
+
+void SPainter::drawFillElipse(SDL_Rect* rect)
+{
+	SDL_Rect r = *rect;
+	for (; r.w / 2 > 0 && r.h / 2 > 0; r.w -= 2, r.h -= 2, r.x++, r.y++)
+	{
+		drawArc(&r, 0, 360);
+	}
+}
+
+void SPainter::drawElipse(const SDL_Rect& rect)
+{
+	drawElipse((SDL_Rect*) & rect);
+}
+
+void SPainter::drawFillElipse(const SDL_Rect& rect)
+{
+	drawFillElipse((SDL_Rect*)&rect);
+}
+
 void SPainter::drawRountRect(SDL_Rect* rect, int hRadius, int vRadius)
 {
 	SDL_RenderDrawLine(ren, rect->x + hRadius, rect->y, rect->x + rect->w - hRadius, rect->y);

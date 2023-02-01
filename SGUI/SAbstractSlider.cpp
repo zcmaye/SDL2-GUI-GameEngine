@@ -1,13 +1,14 @@
 ﻿#include "SAbstractSlider.h"
 #include "SPainter.h"
 #include "SGameApp.h"
+#include "SIndicator.h"
 SAbstractSlider::SAbstractSlider()
 	:m_orientation(SGUI::Horizontal)
 {
+	m_indicator = sApp->GUIManager()->addWidget(new SIndicator(this));
 	//setMouseTracking(true);
 	setFixedSize(150, 20);
 	updateRatio();
-
 }
 
 void SAbstractSlider::setOrientation(SGUI::Orientation ori)
@@ -39,11 +40,11 @@ void SAbstractSlider::setValue(int val)
 	m_value = val;
 	if (orientation() == SGUI::Horizontal)
 	{
-		m_handleRect.x = d->x + m_value * m_ratio ;
+		m_indicator->rx() = d->x + m_value * m_ratio;
 	}
 	else if (orientation() == SGUI::Vertical)
 	{
-		m_handleRect.y = d->y + m_value * m_ratio;
+		m_indicator->ry() = d->y + m_value * m_ratio;
 	}
 
 }
@@ -90,31 +91,14 @@ void SAbstractSlider::paintEvent()
 		painter.fillRect({ d->x + d->w / 3, d->y, d->w / 3, d->h });
 	}
 	//画出手柄
-
-	painter.setColor(SColor(191, 191, 191));
-	//painter.drawEllipse(m_handleRect);
-	painter.fillRect(m_handleRect);
-}
-
-void SAbstractSlider::mousePressEvent(SDL_MouseButtonEvent* ev)
-{
-	//if (m_handleRect.contains(ev->button.x, ev->button.y))
-	if (ev->x >= m_handleRect.x && ev->x < m_handleRect.x + m_handleRect.w && ev->y >= m_handleRect.y && ev->y < m_handleRect.y + m_handleRect.h)
-	{
-		m_isPressHandle = true;
-	}
-}
-
-void SAbstractSlider::mouseReleaseEvent(SDL_MouseButtonEvent* ev)
-{
-	m_isPressHandle = false;
+	//m_indicator->paintEvent();
 }
 
 void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 {
-	if (m_isPressHandle)
+	if (m_indicator->isDown())
 	{
-#if 1
+#if 0
 		if (m_orientation == SGUI::Horizontal)
 		{
 			//移动滑块
@@ -158,24 +142,58 @@ void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 				sclog <<"valueChanged" << m_value << " " << m_distance << " " << m_ratio << std::endl;
 			}		
 		}	
-#endif
-	}
+#else
+		if (m_orientation == SGUI::Horizontal)
+		{
+			//移动滑块
+			m_indicator->rx() = ev->x - m_indicator->width() / 2;
+			//限定滑块的滑动位置
+			if (m_indicator->rx() < d->x)
+			{
+				m_indicator->rx() = d->x;
+			}
+			else if (m_indicator->rx() + m_indicator->width() > d->x + d->w)
+			{
+				m_indicator->rx() = d->x + d->w - m_indicator->width();
+			}
+			//正常移动的时候，改变数据
+			m_distance = m_indicator->rx() - d->x;		//滑块当前相对于起点的距离
+		}
+		else if (m_orientation == SGUI::Vertical)
+		{
+			m_indicator->ry() = ev->y - m_indicator->height() / 2;
+			if (m_indicator->ry() <= d->y)
+			{
+				m_indicator->ry() = d->y;
+			}
+			else if (m_indicator->ry() + m_indicator->height() > d->y + d->h)
+			{
+				m_indicator->ry() = d->y + d->h - m_indicator->height();
+			}
+			m_distance = m_indicator->ry() - d->y;		//滑块当前相对于起点的距离
+		}
 
-	if (ev->x >= m_handleRect.x && ev->x <= m_handleRect.x + m_handleRect.w &&
-		ev->y >= m_handleRect.y && ev->y <= m_handleRect.y + m_handleRect.h)
-	{
-		m_hoverHandle = true;
-	}
-	else
-	{
-		m_hoverHandle = false;
+		//根据m_distance求出当前值
+		//if ((int)m_ratio != 0 && m_distance % (int)m_ratio == 0)
+		{
+			if (m_value != m_distance / m_ratio)
+			{
+				m_value = m_distance / m_ratio;
+				if (onValueChanged)
+				{
+					onValueChanged(m_value);
+				}
+				sclog << "valueChanged" << m_value << " " << m_distance << " " << m_ratio << std::endl;
+			}
+		}
+#endif
 	}
 }
 
 void SAbstractSlider::showEvent(SDL_WindowEvent* ev)
 {
 	int minLen = SDL_min(d->w, d->h);
-	m_handleRect = { d->x, d->y, minLen, minLen };
+	m_indicator->setGeometry( d->x, d->y, minLen, minLen );
 }
 
 void SAbstractSlider::updateRatio()
