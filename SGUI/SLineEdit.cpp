@@ -9,6 +9,21 @@ SLineEdit::SLineEdit()
 	setFixedSize(150, 35);
 	TTF_SetFontKerning(d->font,0);
 	SDL_Log("lineskip:%d", TTF_FontLineSkip(d->font));
+
+	onTextChanged = [=](const std::string& text)
+	{
+		//文本改变时，重新计算文本尺寸
+		TTF_SizeUTF8(d->font, m_text.toString().c_str(), &m_textW, &m_textH);
+
+		//计算哪些文字显示出来
+		//m_srcRect.x = (m_textW < d->w) ? 0 : m_textW - d->w + m_leftMargin * 2;
+		m_srcRect.y = (m_textH < d->h) ? 0 : (d->h - m_textH) / 2;
+		//m_srcRect.w = (m_textW > d->w) ? d->w - m_leftMargin * 2 : m_textW;
+		m_srcRect.h = (m_textH > d->h) ? d->h : m_textH;
+
+		//SDL_Log(u8"%s cursor:%d （%d,%d）", m_text.toString().c_str(), m_cursor, m_cursorX, m_cursorY);
+		//SDL_Log("Rect(%d,%d %d*%d)", m_srcRect.x, m_srcRect.y, m_srcRect.w, m_srcRect.h);
+	};
 }
 
 void SLineEdit::paintEvent()
@@ -26,21 +41,9 @@ void SLineEdit::paintEvent()
 		tex = sApp->TextureManager()->loadText(m_text.toString(), d->font, d->fColor);
 		painter.setColor(d->fColor);
 
-		int tw = 0;
-		int th = 0;
-		SDL_QueryTexture(tex, nullptr, nullptr, &tw, &th);
-		m_textW = tw;
-		m_textH = th;
-
-		//光标移动文字滚动未实现
-		m_srcRect.x = (tw < d->w) ? 0 : tw - d->w + m_leftMargin * 2;
-		m_srcRect.y = (th < d->h) ? 0 : (d->h - th) / 2;
-		m_srcRect.w = (tw > d->w) ? d->w - m_leftMargin * 2 : tw;
-		m_srcRect.h = (th > d->h) ? d->h : th;
-
 		SDL_Rect drect
 		{	d->x + m_leftMargin,
-			d->y + (d->h-th)/2,
+			d->y + (d->h-m_textH)/2,
 			m_srcRect.w,
 			m_srcRect.h
 		};
@@ -107,22 +110,41 @@ bool SLineEdit::event(SDL_Event* ev)
 	//保存输入的文本
 	if (ev->type == SDL_TEXTINPUT)
 	{
-		const char* inputText = ev->text.text;
-		m_text.push_back(ev->text.text);
+		//记录当前光标所在的字符
+		SString str(ev->text.text);
+		m_text.insert(m_text.begin() + m_cursor, str);
+		m_cursor += str.size();
+		
 
-		//获取字符宽度
-		//m_cursorX += getTextWidth(inputText);
-		//m_cursor += SString(inputText).size();
-		if (m_cursorX < d->w - m_leftMargin*2)
-		{
-			m_cursorX += getTextWidth(inputText);
-		}
-		m_cursor += SString(inputText).size();
-
+		//文本改变信号
 		if (onTextChanged) onTextChanged(m_text.toString());
 
-		SDL_Log("w:%d total w:%d", getTextWidth(inputText),getTextWidth(m_text));
-		SDL_Log(u8"%s cursor:%d （%d,%d）", m_text.toString().c_str(),m_cursor,m_cursorX,m_cursorY);
+		//更新光标位置
+		if (m_cursorX < d->w - m_leftMargin * 2 /*&& m_textW <= d->w - m_leftMargin * 2*/)
+		{
+			m_cursorX += getTextWidth(str);
+		}
+		else
+		{
+			m_cursorX = d->w - m_leftMargin * 2;
+		}
+
+		int charW = getTextWidth(str);
+		//更新需要绘制出来的文本的x
+		if (m_textW < d->w)
+			m_srcRect.x = 0;
+		else
+			m_srcRect.x = m_textW - d->w + m_leftMargin * 2;
+
+		//更新需要绘制出来的文本的w
+		if (m_srcRect.w < d->w - m_leftMargin * 2)
+			m_srcRect.w += charW;
+		else
+			m_srcRect.w = d->w - m_leftMargin * 2;
+
+		SDL_Log("charW:%d m_cursorX:%d   %s", charW,m_cursorX,m_text.toString().c_str());
+		SDL_Log("textsize:%d m_cursor:%d", m_text.size(), m_cursor);
+		SDL_Log("Rect(%d,%d %d*%d)", m_srcRect.x, m_srcRect.y, m_srcRect.w, m_srcRect.h);
 	}
 	
 	if (ev->type == SDL_KEYDOWN)
@@ -132,32 +154,68 @@ bool SLineEdit::event(SDL_Event* ev)
 		{
 			if (!m_text.empty() && m_cursor > 0)
 			{		
-				m_cursorX -= getTextWidth(m_text[m_cursor - 1]);
+				int charW = getTextWidth(m_text[m_cursor - 1]);
 
 				m_text.erase(--m_cursor);
-				SDL_Log("m_cursor : %d", m_cursor);
+
+				if (onTextChanged) onTextChanged(m_text.toString());
+			
+				if (m_textW <= d->w)
+					m_srcRect.x = 0;
+				else
+					m_srcRect.x -= charW;
+				
+				if(m_textW <= d->w * m_leftMargin * 2)
+					m_cursorX -= charW;
+
+
+				if (m_srcRect.w > 0)
+				{
+					SDL_Log("1 charW %d srcRect.w %d", charW, m_srcRect.w);
+					m_srcRect.w -= (m_textW > d->w) ? 0 : charW;
+					SDL_Log("2 charW %d srcRect.w %d", charW,m_srcRect.w);
+				}
+								
 			}		
 		}
 		//移动光标
 		if (ev->key.keysym.sym == SDLK_LEFT)
-		{
-			if (m_cursor > 0 && m_cursorX > 0)
+		{	
+			if(m_cursor > 0)
 			{
 				m_cursorX -= getTextWidth(m_text[--m_cursor]);
+				//不能完全展示
+				if (m_srcRect.x > 0)
+				{
+					//光标在最左的的时候需要校正位置
+					if (m_cursorX < 0)
+					{			
+						m_srcRect.x -= SDL_abs(m_cursorX);
+						m_cursorX = 0;
+					}
+				}
 			}
-			//如果文本过长
-			if (m_cursor > 0&&m_textW > d->w - m_leftMargin * 2 && m_cursorX <= 0)
-			{
-				m_srcRect.x -= getTextWidth(m_text[--m_cursor]);
-			}
-			SDL_Log(u8"---- cursor:%d （%d,%d）", m_cursor, m_cursorX, m_cursorY);
+			SDL_Log(u8"-left--- cursor:%d （%d,%d）", m_cursor, m_cursorX, m_cursorY);
 		}
 		else if (ev->key.keysym.sym == SDLK_RIGHT)
 		{
-			if (m_cursor < m_text.size() && m_cursorX < d->w)
+			//if (m_cursor < m_text.size())
+			//{
+			//	m_cursorX += getTextWidth(m_text[m_cursor++]);
+			//
+			//}
+
+			if (m_cursor < m_text.size() && m_cursorX < d->w - m_leftMargin *2)
 			{
 				m_cursorX += getTextWidth(m_text[m_cursor++]);
 			}
+
+			//如果文本过长
+			else if (m_cursor < m_text.size() && m_textW > d->w - m_leftMargin * 2 && m_cursorX >= d->w - m_leftMargin*2)
+			{
+				m_srcRect.x += getTextWidth(m_text[m_cursor++]);
+			}
+			SDL_Log(u8"-right--- cursor:%d （%d,%d）", m_cursor, m_cursorX, m_cursorY);
 		}
 	}
 	

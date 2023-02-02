@@ -26,8 +26,7 @@ public:
 	void drawText(SDL_Rect* rect, SDL_Texture* tex, SGUI::Alignments alignment = SGUI::Alignment::AlignCenter, bool clip = false);
 
 	void drawTexture(const SDL_Rect& target, const SDL_Texture* pixmap, const SDL_Rect& source);
-
-	//void drawTexture(int x, int y, SDL_Texture* tex);
+	void drawTexture(int x, int y, SDL_Texture* tex);
 	//void drawTexture(SDL_Rect* rect, SDL_Texture* tex);
 	//void drawTexture(const SDL_Rect& rect, SDL_Texture* tex);
 

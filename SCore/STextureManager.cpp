@@ -107,6 +107,20 @@ void STextureManager::drawTexture(SDL_Texture* tex, const SDL_Rect* srcRect, con
 	SDL_RenderCopy(SGameApp::renderer, tex, srcRect, dstRect);
 }
 
+int STextureManager::width(SDL_Texture* tex)
+{
+	int w;
+	SDL_QueryTexture(tex, nullptr, nullptr, &w, nullptr);
+	return w;
+}
+
+int STextureManager::height(SDL_Texture* tex)
+{
+	int h;
+	SDL_QueryTexture(tex, nullptr, nullptr, nullptr,&h);
+	return h;
+}
+
 bool STextureManager::precacheTexture(const std::string& tag, const std::string& filename)
 {
 	auto tex = loadTexture(filename);

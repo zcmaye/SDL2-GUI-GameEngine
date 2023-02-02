@@ -20,6 +20,23 @@ public:
 		assert(0 <= index && index < 4);
 		return m_char[index];
 	}
+	inline std::string toString()const
+	{
+		std::string result;
+		if ((m_char[0] & 0xF0) == 0xF0) {
+			result.append({ m_char[0], m_char[1], m_char[2], m_char[3] });
+		}
+		else if ((m_char[0] & 0xE0) == 0xE0) {
+			result.append({ m_char[0] , m_char[1] , m_char[2] });
+		}
+		else if ((m_char[0] & 0xC0) == 0xC0) {
+			result.append({ m_char[0] , m_char[1] });
+		}
+		else if (m_char[0] >= 0) {
+			result.append({ m_char[0] });
+		}
+		return result;
+	}
 
 	friend std::ostream& operator<<(std::ostream& out, const SChar& c);
 private:
@@ -55,6 +72,20 @@ public:
 		push_back(s.toString().c_str());
 	}
 	void push_back(const char* s);
+	inline SString::iterator insert(SString::iterator where, const SChar& val) 
+	{ return m_str.insert(where, val); };
+	inline SString::iterator insert(SString::iterator where, SString::iterator first,SString::iterator last) 
+	{ return m_str.insert(where, first,last); };
+	inline SString::iterator insert(SString::iterator where, const char* s)
+	{
+		SString str(s);
+		return m_str.insert(where, str.begin(),str.end());
+	};
+	inline SString::iterator insert(SString::iterator where, const SString& str)
+	{
+		return m_str.insert(where, str.begin(), str.end());
+	};
+
 
 	std::string toString()const;
 
@@ -78,7 +109,6 @@ public:
 
 	inline void clear() { m_str.clear(); }
 	inline bool empty()const { return m_str.empty(); }
-
 	inline int size()const { return m_str.size(); }
 
 	friend std::ostream& operator<<(std::ostream& out, const SString& s);

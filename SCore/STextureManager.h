@@ -21,6 +21,8 @@ public:
 	static void drawTexture(SDL_Texture* tex, const SDL_Rect& dstRect);
 	static void drawTexture(SDL_Texture* tex, int x,int y);
 	static void drawTexture(SDL_Texture* tex, const SDL_Rect* srcRect, const SDL_Rect* dstRect);
+	static int width(SDL_Texture* tex);
+	static int height(SDL_Texture* tex);
 
 	bool precacheTexture(const std::string& tag, const std::string& filename);	//预缓存
 	bool precacheTexture(const std::string& tag, const SDL_Texture* tex);		//预缓存

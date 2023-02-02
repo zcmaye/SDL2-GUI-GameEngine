@@ -141,6 +141,13 @@ void SPainter::drawTexture(const SDL_Rect& target, const SDL_Texture* tex, const
 	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex, &target, &srcrect);
 }
 
+void SPainter::drawTexture(int x, int y, SDL_Texture* tex)
+{
+	SDL_Rect r = {x,y};
+	SDL_QueryTexture(tex, nullptr, nullptr, &r.w, &r.h);
+	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex, NULL, &r);
+}
+
 
 
 

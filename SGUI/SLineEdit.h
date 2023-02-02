@@ -22,9 +22,10 @@ private:
 	int m_cursorY{ 0 };
 
 	int m_leftMargin = 5;
-	SDL_Rect m_srcRect;
-	int m_textW;		//文本总宽度
-	int m_textH;
+
+	SDL_Rect m_srcRect{0};
+	int m_textW{0};		//文本总宽度
+	int m_textH{0};
 
 	bool m_isTextEditing = false;;
 };
