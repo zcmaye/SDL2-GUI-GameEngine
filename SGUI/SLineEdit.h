@@ -6,6 +6,11 @@ class SLineEdit : public SWidget
 {
 public:
 	SLineEdit();
+	~SLineEdit();
+
+	std::string text()const;
+	void setText(const std::string& text);
+	void clear();
 public:
 	std::function<void(std::string)> onTextChanged;
 protected:
@@ -16,6 +21,7 @@ protected:
 	int getTextWidth(const SString& str);
 private:
 	SString m_text;
+	SDL_Texture* m_texture = nullptr;
 
 	int m_cursor{0};
 	int m_cursorX{ 0 };
