@@ -67,12 +67,12 @@ void SSwitchButton::mousePressEvent(SDL_MouseButtonEvent* ev)
 	if (ev->button == SDL_BUTTON_LEFT)
 	{
 		m_state = !m_state;
-		if(onSwitchChanged) onSwitchChanged(m_state);
+		emit switchChanged(m_state);
 	}
 	SAbstractButton::mousePressEvent(ev);
 }
 
 void SSwitchButton::showEvent(SDL_WindowEvent* ev)
 {
-	if (onSwitchChanged) onSwitchChanged(m_state);
+	emit switchChanged(m_state);
 }

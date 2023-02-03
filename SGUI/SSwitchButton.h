@@ -10,7 +10,7 @@ public:
 	void setOffTexture(const std::string& offTex, const std::string& offHoverTex = std::string());
 	void setOnTexture(const std::string& onTex, const std::string& onHoverTex = std::string());
 public:
-	std::function<void(bool state)> onSwitchChanged;
+	SSignal<void(bool state)> switchChanged;
 protected:
 	void paintEvent()override;
 	void mousePressEvent(SDL_MouseButtonEvent* ev)override;

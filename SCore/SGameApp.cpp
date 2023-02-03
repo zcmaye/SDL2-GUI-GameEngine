@@ -48,7 +48,7 @@ int SGameApp::exec()
 		handleEvents();
 
 		SDL_RenderPresent(renderer);
-		//SDL_Log("times %u", SDL_GetTicks() - startTime);
+		SDL_Log("times %u", SDL_GetTicks() - startTime);
 
 	}
 	clean();
@@ -92,48 +92,51 @@ bool SGameApp::init(const std::string& title, int w, int h)
 		isRunning = false;
 	}
 
-	/*
+	
 	for (int i = 0; i < 5; i++)
 	{
 		auto btn = sApp->GUIManager()->addWidget(new SButton);
 		btn->move(0, i * (35 + 5))
 		   ->setObjectname("button");
 
-		btn->onClicked = [=](){SDL_Log("button clicked %d", i);};
-		//btn->onPressed = [=](){SDL_Log("button released %d", i);};
-		btn->onPressed = BIND_LAMBDA({SDL_Log("button released %d",i); });
+		btn->clicked.connect([=]() 
+			{
+				SDL_Log("button clicked %d", i); 
+			});
+		btn->pressed.connect([=] {SDL_Log("button released %d", i); });
 		btn->setText(u8"顽石" + std::to_string(i));	
 	}
 	auto slider1 = sApp->GUIManager()->addWidget(new SSlider);
 	auto slider2 = sApp->GUIManager()->addWidget(new SSlider);
-	slider1->move(300, 100)->setObjectname("slider1");
-	slider2->move(300, 200)->setObjectname("slider2");
+	slider1->move(300,100/*300, 100*/)->setObjectname("slider1");
+	slider2->move(350,100/*300, 200*/)->setObjectname("slider2");
+	slider1->setOrientation(SGUI::Vertical);
+	slider2->setOrientation(SGUI::Vertical);
 	
-	//slider1->onValueChanged = [=](int value)
-	//	{
-	//		slider2->setValue(value);
-	//	};
-	slider1->onValueChanged = BIND_1(slider2, &SSlider::setValue);
+	slider1->valueChanged.connect(Bind_Args_1(slider2, &SSlider::setValue));
 
 	auto imgBtn = sApp->GUIManager()
 		->addWidget(new SButton("assets/images/play.png", "assets/images/play-hover.png"))
 		->move(0,400)
 		->setFixedSize(32,32);
 
-	auto sbtn = sApp->GUIManager()->addWidget(new SSwitchButton);
-	sbtn->move(100, 350);
-	sbtn->setText(u8"声音");
-	//sbtn->onSwitchChanged = [=](bool state) {slider1->setVisible(state); };
-	//sbtn->onSwitchChanged = std::bind(&SSlider::setVisible,slider1,std::placeholders::_1);
-	sbtn->onSwitchChanged = BIND_1(slider1 ,&SSlider::setVisible);
-
+	//auto sbtn = sApp->GUIManager()->addWidget(new SSwitchButton);
+	//sbtn->move(100, 350);
+	//sbtn->setText(u8"声音");
+	////sbtn->onSwitchChanged = [=](bool state) {slider1->setVisible(state); };
+	////sbtn->onSwitchChanged = std::bind(&SSlider::setVisible,slider1,std::placeholders::_1);
+	//sbtn->switchChanged.connect(Bind_Args_1(slider1, &SSlider::setVisible));
 
 	auto btn = sApp->GUIManager()->addWidget(new SButton("assets/images/play.png", "assets/images/play-hover.png"));
 	btn->move(100, 100);
 	//btn->setText("play");
-	*/
 
-	sApp->GUIManager()->addWidget(new SLineEdit)->move(200,50);
+	auto edit = (SLineEdit*)sApp->GUIManager()->addWidget(new SLineEdit)->move(200,50);
+	slider2->valueChanged.connect([=](int val)
+		{
+			SDL_Log("val:%d val*2 = %d", val, val * 2);
+			edit->setWidth(val*2);
+		});
 
 	return isRunning;
 }

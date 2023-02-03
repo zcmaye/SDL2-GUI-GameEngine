@@ -30,35 +30,53 @@ SGUI::Orientation SAbstractSlider::orientation() const
 
 void SAbstractSlider::setRange(int min, int max)
 {
-	m_max = max;
-	m_min = min;
-	updateRatio();
+	if (m_min != min || m_max != max)
+	{
+		m_max = max;
+		m_min = min;
+		updateRatio();
+		emit rangeChanged(m_min, m_max);
+	}
+
 }
 
 void SAbstractSlider::setValue(int val)
 {
-	m_value = val;
-	if (orientation() == SGUI::Horizontal)
+	if (m_value != val)
 	{
-		m_indicator->rx() = d->x + m_value * m_ratio;
-	}
-	else if (orientation() == SGUI::Vertical)
-	{
-		m_indicator->ry() = d->y + m_value * m_ratio;
-	}
+		m_value = val;
+		emit valueChanged(m_value);
 
+		if (orientation() == SGUI::Horizontal)
+		{
+			m_indicator->rx() = d->x + m_value * m_ratio;
+		}
+		else if (orientation() == SGUI::Vertical)
+		{
+			m_indicator->ry() = d->y + m_value * m_ratio;
+		}
+	}
 }
 
 void SAbstractSlider::setMaximum(int max)
 {
-	m_max = max;
-	updateRatio();
+	if (m_max != max)
+	{
+
+		m_max = max;
+		updateRatio();
+		emit rangeChanged(m_min, m_max);
+	}
 }
 
 void SAbstractSlider::setMinimum(int min)
 {
-	m_min = min;
-	updateRatio();
+	if (m_min != min)
+	{
+		m_min = min;
+		updateRatio();
+		emit rangeChanged(m_min, m_max);
+	}
 }
 
 int SAbstractSlider::maximum() const
@@ -179,14 +197,12 @@ void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 			if (m_value != m_distance / m_ratio)
 			{
 				m_value = m_distance / m_ratio;
-				if (onValueChanged)
-				{
-					onValueChanged(m_value);
-				}
+				emit valueChanged(m_value);
 				sclog << "valueChanged" << m_value << " " << m_distance << " " << m_ratio << std::endl;
 			}
 		}
 #endif
+		emit sliderMoved(m_value);
 	}
 }
 

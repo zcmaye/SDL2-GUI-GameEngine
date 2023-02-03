@@ -19,7 +19,7 @@ void SAbstractButton::mousePressEvent(SDL_MouseButtonEvent* ev)
 {
 	if (ev->button == SDL_BUTTON_LEFT)
 	{
-		if(onPressed) onPressed();
+		emit pressed();
 	}
 }
 
@@ -27,7 +27,7 @@ void SAbstractButton::mouseReleaseEvent(SDL_MouseButtonEvent* ev)
 {
 	if (ev->button == SDL_BUTTON_LEFT)
 	{
-		if (onClicked) onClicked();	
-		if (onReleased) onReleased();
+		emit clicked();	
+		emit released();
 	}
 }

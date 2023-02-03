@@ -9,9 +9,9 @@ public:
 	void setText(const std::string& text);
 	inline std::string text()const { return m_text; }
 public:
-	std::function<void(void)> onClicked;
-	std::function<void(void)> onPressed;
-	std::function<void(void)> onReleased;
+	SSignal<void(void)> clicked;
+	SSignal<void(void)> pressed;
+	SSignal<void(void)> released;
 protected:
 	void mousePressEvent(SDL_MouseButtonEvent* ev)override;
 	void mouseReleaseEvent(SDL_MouseButtonEvent* ev)override;

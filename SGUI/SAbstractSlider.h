@@ -20,7 +20,9 @@ public:
 	int value()const;
 
 public:
-	std::function<void(int)> onValueChanged;
+	SSignal<void(int)> valueChanged;
+	SSignal<void(int)> sliderMoved;
+	SSignal<void(int,int)> rangeChanged;
 
 protected:
 	void paintEvent() override;

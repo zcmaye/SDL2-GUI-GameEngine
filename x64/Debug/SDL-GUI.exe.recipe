@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\gitHub\SDL2-GUI-GameEngine\bin\SDL-GUI.exe</FullPath>
+      <FullPath>E:\GitHub\SDL-GUI\bin\SDL-GUI.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

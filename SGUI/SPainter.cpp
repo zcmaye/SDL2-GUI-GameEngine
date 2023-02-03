@@ -138,7 +138,7 @@ void SPainter::drawText(SDL_Rect* rect, SDL_Texture* tex, SGUI::Alignments align
 
 void SPainter::drawTexture(const SDL_Rect& target, const SDL_Texture* tex, const SDL_Rect& srcrect)
 {
-	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex, &target, &srcrect);
+	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex,  &srcrect, &target);
 }
 
 void SPainter::drawTexture(int x, int y, SDL_Texture* tex)

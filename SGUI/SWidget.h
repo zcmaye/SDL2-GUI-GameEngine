@@ -3,6 +3,7 @@
 #include"Configer.h"
 #include"../SCore/SFont.h"
 #include"../SCore/SColor.h"
+#include"SSignal.h"
 
 struct SWidgetPrivate
 {
