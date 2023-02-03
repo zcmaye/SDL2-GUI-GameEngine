@@ -48,7 +48,7 @@ int SGameApp::exec()
 		handleEvents();
 
 		SDL_RenderPresent(renderer);
-		SDL_Log("times %u", SDL_GetTicks() - startTime);
+		//SDL_Log("times %u", SDL_GetTicks() - startTime);
 
 	}
 	clean();
@@ -97,7 +97,7 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	{
 		auto btn = sApp->GUIManager()->addWidget(new SButton);
 		btn->move(0, i * (35 + 5))
-		   ->setObjectname("button");
+		   ->setObjectname("button"+std::to_string(i));
 
 		btn->clicked.connect([=]() 
 			{
@@ -137,7 +137,10 @@ bool SGameApp::init(const std::string& title, int w, int h)
 			SDL_Log("val:%d val*2 = %d", val, val * 2);
 			edit->setWidth(val*2);
 		});
-
+	auto btn1 = (SButton*)sApp->GUIManager()->widget("button1");
+	btn1->released.connect([=] 
+		{
+		});
 	return isRunning;
 }
 

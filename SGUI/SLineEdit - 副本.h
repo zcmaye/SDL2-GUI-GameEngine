@@ -14,7 +14,6 @@ public:
 	void clear();
 public:
 	SSignal<void(const std::string&)> textChanged;
-	SSignal<void(void)> returnPressed;
 protected:
 	void paintEvent()override;
 	void mouseMoveEvent(SDL_MouseMotionEvent* ev)override;
@@ -26,21 +25,11 @@ protected:
 	//更新实际渲染的文本宽度
 	void updateTextRenderSize();
 	//文本是否能完全显示到编辑框内
-	inline bool isFullDisplay() { return textWidth() <= contentW; }
+	inline bool isFullDisplay() { return m_textW <= contentW; }
 private:
 	SString m_text;
-	struct Texture
-	{
-		SDL_Texture* texture;
-		uint8_t w;
-		Texture(SDL_Texture* texture, uint8_t w)
-			:texture(texture)
-			, w(w) {}
-	};
-	std::vector<Texture> m_texs;
-	int textWidth()const;
-	int textHeight()const;
-	int m_xOffset = 0;	
+	SDL_Texture* m_texture = nullptr;
+	std::vector<uint8_t> m_widths;
 
 	struct Cursor
 	{
@@ -56,6 +45,8 @@ private:
 	int m_leftMargin = 5;
 
 	SDL_Rect m_srcRect{0};
+	int m_textW{0};		//文本总宽度
+	int m_textH{0};
 
 	bool m_isTextEditing = false;
 };

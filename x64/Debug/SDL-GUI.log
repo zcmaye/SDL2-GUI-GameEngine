@@ -1,3 +1,3 @@
-﻿  SGameApp.cpp
-E:\GitHub\SDL-GUI\SCore\SString.h(112,25): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-  SDL-GUI.vcxproj -> E:\GitHub\SDL-GUI\bin\SDL-GUI.exe
+﻿  SLineEdit.cpp
+E:\gitHub\SDL2-GUI-GameEngine\SCore\SString.h(112,25): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
+  SDL-GUI.vcxproj -> E:\gitHub\SDL2-GUI-GameEngine\bin\SDL-GUI.exe
