@@ -5,6 +5,7 @@
 #include"../SCore/SColor.h"
 #include"SSignal.h"
 
+struct SResizeEvent;
 struct SWidgetPrivate
 {
 	std::string objectname;		//对象名
@@ -46,6 +47,7 @@ public:
 	SWidget(SWidget&& other) = delete;
 	SWidget& operator=(const SWidget& other) = delete;
 	SWidget& operator=(SWidget&& other) = delete;
+	
 
 	RETRUN_TYPE setObjectname(const std::string& name);
 	std::string objectname()const;
@@ -64,8 +66,8 @@ public:
 
 	inline int& rx() { return d->x; }
 	inline int& ry() { return d->y; }
-	inline void setWidth(int w) { d->w = w; }
-	inline void setHeight(int h) { d->h = h; }
+	void setWidth(int w) ;
+	void setHeight(int h);
 	int width()const;
 	int height()const;
 	RETRUN_TYPE move(int x, int y);
@@ -74,6 +76,7 @@ public:
 	SDL_Rect geometry()const;
 
 	void raise();
+	inline void update() { paintEvent(); };
 
 	inline RETRUN_TYPE setBackgroundColor(SColor color) { d->bColor = color;  RETURN_VALUE;};
 	inline RETRUN_TYPE setforegroundColor(SColor color) { d->fColor = color; RETURN_VALUE;};
@@ -94,7 +97,8 @@ protected:
 	virtual void keyPressEvent(SDL_KeyboardEvent* ev);
 	virtual void keyReleaseEvent(SDL_KeyboardEvent* ev);
 
-	virtual void resizeEvent(SDL_Event* ev);
+	virtual void resizeEvent(SResizeEvent* ev);
+	virtual void moveEvent(SDL_Event* ev) {};
 	virtual void showEvent(SDL_WindowEvent* ev);
 
 	std::unique_ptr<SWidgetPrivate> d;

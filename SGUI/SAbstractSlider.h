@@ -7,6 +7,7 @@ class SAbstractSlider : public SWidget
 {
 public:
 	SAbstractSlider();
+	~SAbstractSlider();
 
 	void setOrientation(SGUI::Orientation);
 	SGUI::Orientation orientation() const;
@@ -19,6 +20,11 @@ public:
 	int minimum() const;
 	int value()const;
 
+	//void setGrooveWidth(int w);
+	//inline void setIndicatorWidth(int w) { m_indicator->setWidth(w); };
+	//inline void setIndicatorHeight(int h) { m_indicator->setHeight(h); };
+	//inline void setIndicatorSize(int w, int h) { m_indicator->setFixedSize(w, h); };
+
 public:
 	SSignal<void(int)> valueChanged;
 	SSignal<void(int)> sliderMoved;
@@ -28,10 +34,14 @@ protected:
 	void paintEvent() override;
 	void mouseMoveEvent(SDL_MouseMotionEvent* ev)override;
 	void showEvent(SDL_WindowEvent* ev);
+	void moveEvent(SDL_Event* ev)override;
 
 	SIndicator* m_indicator;
+	void updateIndicator();
 
 	void updateRatio();	//值和凹槽长度比率
+	//int m_grooveWidth;
+	//int m_grooveHeight;
 private:
 	SGUI::Orientation m_orientation;
 	int m_max = 100;	

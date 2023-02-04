@@ -4,11 +4,16 @@
 #include "SIndicator.h"
 SAbstractSlider::SAbstractSlider()
 	:m_orientation(SGUI::Horizontal)
+	,m_indicator(sApp->GUIManager()->addWidget(new SIndicator(this)))
 {
-	m_indicator = sApp->GUIManager()->addWidget(new SIndicator(this));
-	//setMouseTracking(true);
 	setFixedSize(150, 20);
+	//setMouseTracking(true);
+	SDL_Log("%s", __FUNCTION__);
 	updateRatio();
+}
+SAbstractSlider::~SAbstractSlider()
+{
+	//delete m_indicator;
 }
 
 void SAbstractSlider::setOrientation(SGUI::Orientation ori)
@@ -47,15 +52,12 @@ void SAbstractSlider::setValue(int val)
 		m_value = val;
 		emit valueChanged(m_value);
 
-		if (orientation() == SGUI::Horizontal)
-		{
-			m_indicator->rx() = d->x + m_value * m_ratio;
-		}
-		else if (orientation() == SGUI::Vertical)
-		{
-			m_indicator->ry() = d->y + m_value * m_ratio;
-		}
+		updateIndicator();
 	}
+}
+void SAbstractSlider::moveEvent(SDL_Event* ev)
+{
+	updateIndicator();
 }
 
 void SAbstractSlider::setMaximum(int max)
@@ -97,19 +99,23 @@ int SAbstractSlider::value() const
 void SAbstractSlider::paintEvent()
 {
 	SPainter painter(SGameApp::renderer);
+	painter.setColor(d->bColor);
 	if (m_orientation == SGUI::Horizontal)
 	{
 		//画出凹槽
-		painter.fillRect({ d->x, d->y + d->h / 3, d->w, d->h / 3 });
-
+		//painter.fillRect({ d->x, d->y + d->h / 3, d->w, d->h / 3 });
+		painter.fillRect({ d->x, d->y, d->w, d->h });
 	}
 	else if (m_orientation == SGUI::Vertical)
 	{
 		//画出凹槽
-		painter.fillRect({ d->x + d->w / 3, d->y, d->w / 3, d->h });
+		//painter.fillRect({ d->x + d->w / 3, d->y, d->w / 3, d->h });
+		painter.fillRect({ d->x, d->y, d->w, d->h  });
 	}
 	//画出手柄
-	//m_indicator->paintEvent();
+	m_indicator->update();
+
+	//m_indicator->raise();
 }
 
 void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
@@ -209,7 +215,21 @@ void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 void SAbstractSlider::showEvent(SDL_WindowEvent* ev)
 {
 	int minLen = SDL_min(d->w, d->h);
-	m_indicator->setGeometry( d->x, d->y, minLen, minLen );
+	m_indicator->setFixedSize(minLen, minLen);
+}
+
+void  SAbstractSlider::updateIndicator()
+{
+	if (orientation() == SGUI::Horizontal)
+	{
+		m_indicator->rx() = d->x + m_value * m_ratio;
+		m_indicator->ry() = d->y;
+	}
+	else if (orientation() == SGUI::Vertical)
+	{
+		m_indicator->rx() = d->x;
+		m_indicator->ry() = d->y + m_value * m_ratio;
+	}
 }
 
 void SAbstractSlider::updateRatio()

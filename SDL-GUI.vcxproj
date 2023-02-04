@@ -177,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="SCore\Configer.h" />
     <ClInclude Include="SCore\SColor.h" />
+    <ClInclude Include="SCore\SEvent.h" />
     <ClInclude Include="SCore\SFont.h" />
     <ClInclude Include="SCore\SSignal.h" />
     <ClInclude Include="SCore\SString.h" />

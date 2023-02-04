@@ -1,6 +1,7 @@
 ﻿#include "SWidget.h"
 #include "SGameApp.h"
 #include "SPainter.h"
+#include"../SCore/SEvent.h"
 SWidget::SWidget()
 {
 	d.reset(new SWidgetPrivate);
@@ -36,6 +37,25 @@ bool SWidget::contains(const SDL_Point& pos)
 	}
 	return false;
 }
+void SWidget::setWidth(int w)
+{
+	if (d->w != w)
+	{
+		
+		SResizeEvent ev = { SEventType::ResizeEvent,d->w,d->h,w,d->h };
+		d->w = w;
+		resizeEvent(&ev);
+	}
+}
+void SWidget::setHeight(int h)
+{
+	if (d->h != h)
+	{
+		SResizeEvent ev = { SEventType::ResizeEvent,d->w,d->h,d->w,h };
+		d->h = h;
+		resizeEvent(&ev);
+	}
+}
 int SWidget::width() const
 {
 	return d->w;
@@ -46,14 +66,24 @@ int SWidget::height() const
 }
 RETRUN_TYPE SWidget::move(int x, int y)
 {
-	d->x = x;
-	d->y = y;
+	if (d->x != x || d->y != y)
+	{
+		d->x = x;
+		d->y = y;
+		moveEvent(nullptr);
+	}
+
 	RETURN_VALUE;
 }
 RETRUN_TYPE SWidget::setFixedSize(int w, int h)
 {
-	d->w = w;
-	d->h = h;
+	if (d->w != w || d->h != h)
+	{
+		SResizeEvent ev = { SEventType::ResizeEvent,d->w,d->h,w,h };
+		d->w = w;
+		d->h = h;
+		resizeEvent(&ev);
+	}
 	RETURN_VALUE;
 }
 RETRUN_TYPE  SWidget::setGeometry(int x, int y, int w, int h)
@@ -132,7 +162,12 @@ bool SWidget::event(SDL_Event* ev)
 		switch (ev->window.event)
 		{
 		case SDL_WINDOWEVENT_RESIZED:
-			resizeEvent(ev);
+		{
+			SResizeEvent ev = { SEventType::ResizeEvent };
+			SDL_GetWindowSize(sApp->window, &ev.w, &ev.h);
+			resizeEvent(&ev);
+		}
+			
 			break;
 		case SDL_WINDOWEVENT_SHOWN:
 			showEvent(&ev->window);
@@ -190,7 +225,7 @@ void SWidget::keyReleaseEvent(SDL_KeyboardEvent* ev)
 {
 }
 
-void SWidget::resizeEvent(SDL_Event* ev)
+void SWidget::resizeEvent(SResizeEvent* ev)
 {
 }
 

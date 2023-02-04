@@ -14,12 +14,17 @@ void SIndicator::paintEvent()
 {
 	if (m_parent && !m_parent->visible())
 		return;
+
 	SPainter painter(SGameApp::renderer);
 	painter.setColor(d->isHovered ? d->hColor : d->bColor);
 	switch (m_type)
 	{
 	case SIndicator::Rect:
-		painter.fillRect(geometry());
+	{
+		auto rect = geometry();
+		painter.fillRect(rect);
+	}
+		
 		break;
 	case SIndicator::Elipse:
 		painter.drawFillElipse(geometry());
@@ -27,7 +32,7 @@ void SIndicator::paintEvent()
 	default:
 		break;
 	}
-	
+
 }
 
 void SIndicator::mousePressEvent(SDL_MouseButtonEvent* ev)

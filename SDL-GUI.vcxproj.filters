@@ -140,5 +140,8 @@
     <ClInclude Include="SCore\SSignal.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SCore\SEvent.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

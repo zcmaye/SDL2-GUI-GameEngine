@@ -4,11 +4,16 @@
 #include "SIndicator.h"
 SSwitchButton::SSwitchButton()
 	:m_state(false)
+	, m_indicator(new SIndicator(this, SIndicator::Elipse))
 {
-	m_indicator = sApp->GUIManager()->addWidget(new SIndicator(this,SIndicator::Elipse));
 	setFixedSize(64, 32);
 	//setOffTexture("assets/images/switch-off.png");
 	//setOnTexture("assets/images/switch-on.png");
+}
+
+SSwitchButton::~SSwitchButton()
+{
+	delete m_indicator;
 }
 
 void SSwitchButton::setOffTexture(const std::string& offTex, const std::string& offHoverTex)
@@ -41,12 +46,7 @@ void SSwitchButton::paintEvent()
 		m_indicator->ry() = r.y + spacing;
 		m_indicator->setFixedSize(minSize - spacing * 2, minSize - spacing * 2);
 		
-		//int spacing = 4;					//指示器距离上下左右边框的距离
-		//int minSize = SDL_min(r.w, r.h);	//宽高最小的作为指示器的宽度和高度
-		//r.x = r.x + (m_state ? r.w - minSize + spacing : spacing);
-		//r.y = r.y + spacing;
-		//r.w = r.h = minSize - spacing * 2;
-		//painter.drawFillElipse(&r, d->isHovered ? m_handColor :SColor(191, 191, 191));
+		m_indicator->update();
 	}
 	else
 	{

@@ -2,7 +2,7 @@
 #include "SPainter.h"
 #include "SGameApp.h"
 #include "SIndicator.h"
-
+#include "SEvent.h"
 
 
 
@@ -89,21 +89,25 @@ void SLineEdit::paintEvent()
 		int y = d->y + (d->h - textHeight()) / 2;
 		for (size_t i = 0; i < m_texs.size(); i++)
 		{
-			if (curW - m_xOffset >= 0 - m_leftMargin && curW - m_xOffset <= contentW)
+			if (curW - m_xOffset >= 0 - m_leftMargin && curW - m_xOffset < contentW)
 			{
-				//if (curW - m_xOffset >= 0 - m_leftMargin && curW - m_xOffset)
-				//{
-				//	SDL_Rect srcRect = { SDL_abs(curW - m_xOffset) ,0, m_texs[i].w - SDL_abs(curW - m_xOffset) ,textHeight()};
-				//	SDL_Rect dstRect = { 0 ,y,srcRect.w,srcRect.h };
-				//	painter.drawTexture(dstRect, m_texs[i].texture, srcRect);
-				//}
-				//else if (curW - m_xOffset <= contentW)
-				//{
-				//	//SDL_Rect srcRect = { SDL_abs(curW - m_xOffset) ,0, m_texs[i].w - SDL_abs(curW - m_xOffset) ,textHeight() };
-				//	//SDL_Rect dstRect = { 0 ,y,srcRect.w,srcRect.h };
-				//	//painter.drawTexture(dstRect, m_texs[i].texture, srcRect);
-				//}
-				//else
+				//左边不能完全渲染的字符，裁剪一下
+				if (curW - m_xOffset < 0 && curW - m_xOffset + m_texs[i].w > 0)
+				{
+					SDL_Rect srcRect = { SDL_abs(curW - m_xOffset) ,0, m_texs[i].w - SDL_abs(curW - m_xOffset) ,textHeight()};
+					SDL_Rect dstRect = { d->x + m_leftMargin ,y,srcRect.w,srcRect.h };
+					painter.drawTexture(dstRect, m_texs[i].texture, srcRect);
+				}
+				//左边不能完全渲染的字符，裁剪一下
+				else if (curW - m_xOffset < contentW && curW - m_xOffset + m_texs[i].w > contentW)
+				{
+					SDL_Rect srcRect = { 0 ,0, SDL_abs(curW - m_xOffset - contentW) ,textHeight() };
+					SDL_Rect dstRect = { x - m_xOffset ,y,srcRect.w,srcRect.h };
+					painter.drawTexture(dstRect, m_texs[i].texture, srcRect);
+					//SDL_Log("curW %d m_xOffset:%d ooo:%d cw:%d", curW, m_xOffset,curW - m_xOffset -contentW,m_texs[i].w);
+				}
+				//在输入框中的字符能完全渲染
+				else
 				{
 					painter.drawTexture(x - m_xOffset, y, m_texs[i].texture);
 				}
@@ -191,6 +195,27 @@ void SLineEdit::keyPressEvent(SDL_KeyboardEvent* ev)
 
 		break;
 	}
+}
+
+void SLineEdit::resizeEvent(SResizeEvent* ev)
+{
+	SDL_Log("%d %d %d", m_xOffset, ev->oldw, ev->w);
+	if (textWidth() < ev->w - m_leftMargin*2)
+	{
+		m_xOffset = 0;
+	}
+	else
+	{
+		if (m_xOffset > 0)
+		{
+			m_xOffset -= ev->w - ev->oldw;
+		}
+
+		
+		//m_xOffset = 0;
+		//m_cursor.x = textWidth();
+	}
+	SDL_Log("%d", m_xOffset);
 }
 
 bool SLineEdit::event(SDL_Event* ev)

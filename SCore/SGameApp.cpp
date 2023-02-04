@@ -109,11 +109,12 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	auto slider1 = sApp->GUIManager()->addWidget(new SSlider);
 	auto slider2 = sApp->GUIManager()->addWidget(new SSlider);
 	slider1->move(300,100/*300, 100*/)->setObjectname("slider1");
-	slider2->move(350,100/*300, 200*/)->setObjectname("slider2");
-	slider1->setOrientation(SGUI::Vertical);
+	slider2->move(300,120/*300, 200*/)->setObjectname("slider2");
+	//slider1->setOrientation(SGUI::Vertical);
 	slider2->setOrientation(SGUI::Vertical);
+	slider2->setRange(10, 300);
 	
-	slider1->valueChanged.connect(Bind_Args_1(slider2, &SSlider::setValue));
+	//slider1->valueChanged.connect(Bind_Args_1(slider2, &SSlider::setValue));
 
 	auto imgBtn = sApp->GUIManager()
 		->addWidget(new SButton("assets/images/play.png", "assets/images/play-hover.png"))
@@ -132,10 +133,11 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	//btn->setText("play");
 
 	auto edit = (SLineEdit*)sApp->GUIManager()->addWidget(new SLineEdit)->move(200,50);
+	slider2->setValue(edit->width());
 	slider2->valueChanged.connect([=](int val)
 		{
 			SDL_Log("val:%d val*2 = %d", val, val * 2);
-			edit->setWidth(val*2);
+			edit->setWidth(val);
 		});
 	auto btn1 = (SButton*)sApp->GUIManager()->widget("button1");
 	btn1->released.connect([=] 

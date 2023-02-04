@@ -7,6 +7,7 @@ class SSwitchButton : public SAbstractButton
 {
 public:
 	SSwitchButton();
+	~SSwitchButton();
 	void setOffTexture(const std::string& offTex, const std::string& offHoverTex = std::string());
 	void setOnTexture(const std::string& onTex, const std::string& onHoverTex = std::string());
 public:

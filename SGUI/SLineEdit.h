@@ -20,6 +20,7 @@ protected:
 	void mouseMoveEvent(SDL_MouseMotionEvent* ev)override;
 	void mousePressEvent(SDL_MouseButtonEvent* ev)override;
 	void keyPressEvent(SDL_KeyboardEvent* ev)override;
+	void resizeEvent(SResizeEvent* ev)override;
 	bool event(SDL_Event* ev)override;
 	int getTextWidth(const SString& str);
 
