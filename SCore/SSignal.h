@@ -54,6 +54,7 @@ inline typename SSignal<_Fty>::ConnectionID SSignal<_Fty>::connect(const std::fu
 	return ConnectionID(m_slots.size() -1);
 }
 
+
 template<typename _Fty>
 inline void SSignal<_Fty>::disConnect(const ConnectionID& id)
 {
@@ -72,6 +73,8 @@ inline void SSignal<_Fty>::disConnect(const std::function<_Fty>& func)
 		m_slots.erase(it);
 	}
 }
+
+
 
 template<typename _Fty>
 template<typename ...Args>

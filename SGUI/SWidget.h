@@ -53,7 +53,7 @@ public:
 	RETRUN_TYPE setObjectname(const std::string& name);
 	std::string objectname()const;
 
-	inline RETRUN_TYPE setVisible(bool visible) { d->isVisible = visible; RETURN_VALUE; };
+	inline void setVisible(bool visible) { d->isVisible = visible; ; };
 	inline bool visible() const { return d->isVisible; };
 	inline RETRUN_TYPE show() { setVisible(true); RETURN_VALUE;};
 	inline RETRUN_TYPE hide() { setVisible(false); RETURN_VALUE;};
