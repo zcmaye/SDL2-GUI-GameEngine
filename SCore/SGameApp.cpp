@@ -94,7 +94,6 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	sbtn->setText(u8"声音");
 	//sbtn->onSwitchChanged = [=](bool state) {slider1->setVisible(state); };
 	//sbtn->onSwitchChanged = std::bind(&SSlider::setVisible,slider1,std::placeholders::_1);
-	//sbtn->switchChanged.connect(Bind_Args_1(slider1, &SSlider::setVisible));
 	sbtn->switchChanged.connect(Bind_Args_1(slider1, &SSlider::setVisible));
 
 	auto btn = sApp->GUIManager()->addWidget(new SButton("assets/images/play.png", "assets/images/play-hover.png"));

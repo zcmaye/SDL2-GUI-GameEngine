@@ -59,10 +59,10 @@ namespace SGUI
 #define sclog std::cout<<"[info:"<<__LINE__<<"] "
 
 
-#define Bind_Args_0(object,func) std::bind(func,(object))
-#define Bind_Args_1(object,func) std::bind(func,(object),std::placeholders::_1)
-#define Bind_Args_2(object,func) std::bind(func,(object),std::placeholders::_1,std::placeholders::_2)
-#define Bind_Args_3(object,func) std::bind(func,(object),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3)
+#define Bind_Args_0(object,slot) std::bind(slot,(object))
+#define Bind_Args_1(object,slot) std::bind(slot,(object),std::placeholders::_1)
+#define Bind_Args_2(object,slot) std::bind(slot,(object),std::placeholders::_1,std::placeholders::_2)
+#define Bind_Args_3(object,slot) std::bind(slot,(object),std::placeholders::_1,std::placeholders::_2,std::placeholders::_3)
 
 
 #define _CRTDBG_MAP_ALLOC
