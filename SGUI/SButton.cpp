@@ -29,7 +29,7 @@ SButton::SButton()
 
 void SButton::paintEvent()
 {
-	SPainter painter(sApp->renderer);
+	SPainter painter(sApp->renderer_);
 	//如果添加了图片，则不需要自己绘制背景
 	if (m_normalTexture.empty())
 	{

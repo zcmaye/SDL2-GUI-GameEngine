@@ -10,6 +10,7 @@ SAbstractSlider::SAbstractSlider()
 	//setMouseTracking(true);
 	SDL_Log("%s", __FUNCTION__);
 	updateRatio();
+	setFocusPlicy(SGUI::WheelFocus);
 }
 SAbstractSlider::~SAbstractSlider()
 {
@@ -98,7 +99,7 @@ int SAbstractSlider::value() const
 
 void SAbstractSlider::paintEvent()
 {
-	SPainter painter(SGameApp::renderer);
+	SPainter painter(sApp->renderer_);
 	painter.setColor(d->bColor);
 	if (m_orientation == SGUI::Horizontal)
 	{
@@ -113,9 +114,9 @@ void SAbstractSlider::paintEvent()
 		painter.fillRect({ d->x, d->y, d->w, d->h  });
 	}
 	//画出手柄
-	m_indicator->update();
+	//m_indicator->update();
 
-	//m_indicator->raise();
+	m_indicator->raise();
 }
 
 void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
@@ -210,6 +211,22 @@ void SAbstractSlider::mouseMoveEvent(SDL_MouseMotionEvent* ev)
 #endif
 		emit sliderMoved(m_value);
 	}
+}
+
+void SAbstractSlider::mouseWheelEvent(SDL_MouseWheelEvent* ev)
+{
+	if (focus() && (d->focusPolicy & SGUI::WheelFocus))
+	{
+		if (ev->y == -1)
+		{
+			m_indicator->ry()++;
+		}
+		else
+		{
+			m_indicator->ry()--;
+		}
+	}
+
 }
 
 void SAbstractSlider::showEvent(SDL_WindowEvent* ev)

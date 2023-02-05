@@ -70,23 +70,10 @@ void SGUIManager::clearAllFocus()
 }
 void SGUIManager::event(SDL_Event* ev)
 {
-#if 0
 	for (auto w : m_widgets)
 	{
 		w->event(ev);
-		//在遍历m_widgets时，添加Widget会导致迭代器失效，使用下标遍历即可
-		static int i = 0;
-		addWidget(new SWidget)->setObjectname(std::to_string(i));
 	}
-#else
-	for (auto w : m_widgets)
-	{
-		if (w->event(ev))
-		{
-			//break;
-		}
-	}
-#endif // 0
 }
 
 void SGUIManager::draw()
@@ -94,6 +81,6 @@ void SGUIManager::draw()
 	for (int i = 0; i < m_widgets.size(); i++)
 	{
 		if(m_widgets[i]->visible())
-			m_widgets[i]->paintEvent();
+			m_widgets[i]->update();
 	}
 }

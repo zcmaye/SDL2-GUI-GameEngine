@@ -33,6 +33,7 @@ public:
 protected:
 	void paintEvent() override;
 	void mouseMoveEvent(SDL_MouseMotionEvent* ev)override;
+	void mouseWheelEvent(SDL_MouseWheelEvent* ev)override;
 	void showEvent(SDL_WindowEvent* ev);
 	void moveEvent(SDL_Event* ev)override;
 

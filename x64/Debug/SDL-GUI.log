@@ -1,4 +1,19 @@
-﻿  SLineEdit.cpp
-E:\GitHub\SDL-GUI\SCore\SString.h(112,25): warning C4267: “return”: 从“size_t”转换到“int”，可能丢失数据
-E:\GitHub\SDL-GUI\SGUI\SLineEdit.cpp(213,38): warning C4804: “<”: 在操作中使用类型“bool”不安全
-  SDL-GUI.vcxproj -> E:\GitHub\SDL-GUI\bin\SDL-GUI.exe
+﻿  SGameApp.cpp
+  SAbstractButton.cpp
+  SAbstractSlider.cpp
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SAbstractSlider.cpp(206,26): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SAbstractSlider.cpp(242,28): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SAbstractSlider.cpp(248,28): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+  SButton.cpp
+  SGUIManager.cpp
+  SIndicator.cpp
+  SLineEdit.cpp
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SLineEdit.cpp(57,34): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SLineEdit.cpp(166,35): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SLineEdit.cpp(187,34): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+E:\gitHub\SDL2-GUI-GameEngine\SGUI\SLineEdit.cpp(270,30): warning C4267: “+=”: 从“size_t”转换到“int”，可能丢失数据
+  SSlider.cpp
+  SSwitchButton.cpp
+  SWidget.cpp
+  正在生成代码...
+  SDL-GUI.vcxproj -> E:\gitHub\SDL2-GUI-GameEngine\bin\SDL-GUI.exe

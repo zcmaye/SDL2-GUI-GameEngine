@@ -12,7 +12,7 @@ SSlider::SSlider()
 void SSlider::paintEvent()
 {
 	SAbstractSlider::paintEvent();
-	//SPainter painter(SGameApp::renderer);
+	//SPainter painter(sApp->renderer_);
 	////画出凹槽
 	//painter.setColor(d->bColor);
 	//painter.fillRect({ d->x, d->y, d->w, d->h });

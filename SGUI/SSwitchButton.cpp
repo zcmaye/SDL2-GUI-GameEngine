@@ -4,7 +4,7 @@
 #include "SIndicator.h"
 SSwitchButton::SSwitchButton()
 	:m_state(false)
-	, m_indicator(new SIndicator(this, SIndicator::Elipse))
+	, m_indicator(sApp->GUIManager()->addWidget( new SIndicator(this, SIndicator::Elipse)))
 {
 	setFixedSize(64, 32);
 	//setOffTexture("assets/images/switch-off.png");
@@ -13,7 +13,7 @@ SSwitchButton::SSwitchButton()
 
 SSwitchButton::~SSwitchButton()
 {
-	delete m_indicator;
+	
 }
 
 void SSwitchButton::setOffTexture(const std::string& offTex, const std::string& offHoverTex)
@@ -31,7 +31,7 @@ void SSwitchButton::setOnTexture(const std::string& onTex, const std::string& on
 
 void SSwitchButton::paintEvent()
 {
-	SPainter painter(sApp->renderer);
+	SPainter painter(sApp->renderer_);
 	SDL_Rect r = { d->x,d->y,d->w,d->h };
 	if (m_offImgFile.empty() && m_onImgFile.empty())
 	{
@@ -46,7 +46,7 @@ void SSwitchButton::paintEvent()
 		m_indicator->ry() = r.y + spacing;
 		m_indicator->setFixedSize(minSize - spacing * 2, minSize - spacing * 2);
 		
-		m_indicator->update();
+		//m_indicator->update();
 	}
 	else
 	{

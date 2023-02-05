@@ -109,7 +109,7 @@ public:
 
 	inline void clear() { m_str.clear(); }
 	inline bool empty()const { return m_str.empty(); }
-	inline int size()const { return m_str.size(); }
+	inline size_t size()const { return m_str.size(); }
 
 	friend std::ostream& operator<<(std::ostream& out, const SString& s);
 

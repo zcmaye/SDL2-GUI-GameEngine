@@ -137,10 +137,10 @@
     <ClInclude Include="SGUI\SLineEdit.h">
       <Filter>头文件\SGUI</Filter>
     </ClInclude>
-    <ClInclude Include="SCore\SSignal.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="SCore\SEvent.h">
+      <Filter>头文件\SCore</Filter>
+    </ClInclude>
+    <ClInclude Include="SCore\SSignal.h">
       <Filter>头文件\SCore</Filter>
     </ClInclude>
   </ItemGroup>

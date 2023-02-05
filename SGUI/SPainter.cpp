@@ -30,7 +30,7 @@ void SPainter::setFont(const SFont& font)
 
 void SPainter::drawLine(int x1, int y1, int x2, int y2)
 {
-	SDL_RenderDrawLine(sApp->renderer, x1, y1, x2, y2);
+	SDL_RenderDrawLine(sApp->renderer_, x1, y1, x2, y2);
 }
 
 void SPainter::drawRect(SDL_Rect* rect)
@@ -138,14 +138,14 @@ void SPainter::drawText(SDL_Rect* rect, SDL_Texture* tex, SGUI::Alignments align
 
 void SPainter::drawTexture(const SDL_Rect& target, const SDL_Texture* tex, const SDL_Rect& srcrect)
 {
-	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex,  &srcrect, &target);
+	SDL_RenderCopy(sApp->renderer_, (SDL_Texture*)tex,  &srcrect, &target);
 }
 
 void SPainter::drawTexture(int x, int y, SDL_Texture* tex)
 {
 	SDL_Rect r = {x,y};
 	SDL_QueryTexture(tex, nullptr, nullptr, &r.w, &r.h);
-	SDL_RenderCopy(sApp->renderer, (SDL_Texture*)tex, NULL, &r);
+	SDL_RenderCopy(sApp->renderer_, (SDL_Texture*)tex, NULL, &r);
 }
 
 

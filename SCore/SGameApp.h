@@ -2,6 +2,7 @@
 #include"Configer.h"
 #include"SGUIManager.h"
 #include"STextureManager.h"
+
 #define sApp SGameApp::instance()
 class SGameApp
 {
@@ -11,25 +12,26 @@ public:
 	static SGameApp* instance();
 
 	/*@game*/
-	static bool init(const std::string& title,int w,int h);
-	static void clean();
-	static void update();
-	static void render();
-	static void handleEvents();
-	static int exec();
+	bool init(const std::string& title,int w,int h);
+	void clean();
+	void update();
+	void render();
+	void handleEvents();
+	inline void quit() { isRunning_ = false; };
+	inline bool running() { return isRunning_; }
+	int exec();
 
-	/*@quit*/
-	inline static void quit() { isRunning = false; };
+
 
 	/*@Managers*/
 	SGUIManager* GUIManager() { return SGUIManager::instance(); };
 	STextureManager* TextureManager() { return STextureManager::instance(); }
 
 public:
-	static bool isRunning;
-	static SDL_Window* window;
-	static SDL_Renderer* renderer;
-	static SDL_Event events;
+	 bool isRunning_;
+	 SDL_Window* window_;
+	 SDL_Renderer* renderer_;
+	 SDL_Event events_;
 };
 
 

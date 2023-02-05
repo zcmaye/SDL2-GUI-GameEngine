@@ -45,6 +45,12 @@ namespace SGUI
 		Blue	= 0x0000FF'FF,
 		Transparent = 0x00000000
 	};
+	enum FocusPolicy
+	{
+		NoFocus,
+		ClickFocus,
+		WheelFocus
+	};
 #define RandomColor SColor(rand() % 255, rand() % 255, rand() % 255)
 }
 

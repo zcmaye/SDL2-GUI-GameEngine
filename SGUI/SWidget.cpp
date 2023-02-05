@@ -119,7 +119,9 @@ bool SWidget::event(SDL_Event* ev)
 	case SDL_MOUSEBUTTONDOWN:
 		if (contains(SDL_Point{ ev->button.x,ev->button.y }))
 		{
-			setFocus();
+			SGUIManager::instance()->clearAllFocus();
+			setFocus(SGUI::ClickFocus);
+			setFocus(SGUI::WheelFocus);
 
 			if (ev->button.clicks == 1)
 			{
@@ -142,7 +144,6 @@ bool SWidget::event(SDL_Event* ev)
 			mouseReleaseEvent(&ev->button);
 		break;
 	case SDL_MOUSEMOTION:
-		//if (d->kFocus)
 		mouseMoveEvent(&ev->motion);
 		if (contains(SDL_Point{ ev->button.x,ev->button.y }))
 		{
@@ -154,7 +155,6 @@ bool SWidget::event(SDL_Event* ev)
 		}		
 		break;
 	case SDL_MOUSEWHEEL:
-		if (d->kFocus)
 			mouseWheelEvent(&ev->wheel);
 		break;
 	case SDL_WINDOWEVENT:
@@ -164,7 +164,7 @@ bool SWidget::event(SDL_Event* ev)
 		case SDL_WINDOWEVENT_RESIZED:
 		{
 			SResizeEvent ev = { SEventType::ResizeEvent };
-			SDL_GetWindowSize(sApp->window, &ev.w, &ev.h);
+			SDL_GetWindowSize(sApp->window_, &ev.w, &ev.h);
 			resizeEvent(&ev);
 		}
 			
@@ -182,7 +182,7 @@ bool SWidget::event(SDL_Event* ev)
 
 void SWidget::paintEvent()
 {
-	SPainter painter(SGameApp::renderer);
+	SPainter painter(sApp->renderer_);
 	if (d->isHovered)
 	{
 		painter.setColor(d->hColor);
@@ -193,42 +193,4 @@ void SWidget::paintEvent()
 	}
 	
 	painter.fillRect({ d->x,d->y,d->w,d->h });
-}
-
-void SWidget::mousePressEvent(SDL_MouseButtonEvent* ev)
-{
-
-}
-
-void SWidget::mouseReleaseEvent(SDL_MouseButtonEvent* ev)
-{
-}
-
-void SWidget::mouseMoveEvent(SDL_MouseMotionEvent* ev)
-{
-
-}
-
-void SWidget::mouseWheelEvent(SDL_MouseWheelEvent* ev)
-{
-}
-
-void SWidget::mouseDoubleClickEvent(SDL_MouseButtonEvent* ev)
-{
-}
-
-void SWidget::keyPressEvent(SDL_KeyboardEvent* ev)
-{
-}
-
-void SWidget::keyReleaseEvent(SDL_KeyboardEvent* ev)
-{
-}
-
-void SWidget::resizeEvent(SResizeEvent* ev)
-{
-}
-
-void SWidget::showEvent(SDL_WindowEvent* ev)
-{
 }

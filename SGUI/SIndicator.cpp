@@ -15,7 +15,7 @@ void SIndicator::paintEvent()
 	if (m_parent && !m_parent->visible())
 		return;
 
-	SPainter painter(SGameApp::renderer);
+	SPainter painter(sApp->renderer_);
 	painter.setColor(d->isHovered ? d->hColor : d->bColor);
 	switch (m_type)
 	{

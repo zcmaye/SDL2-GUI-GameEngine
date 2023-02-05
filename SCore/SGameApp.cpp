@@ -7,91 +7,59 @@
 #include"SSlider.h"
 #include"SLineEdit.h"
 
-bool SGameApp::isRunning = false;
-SDL_Window* SGameApp::window;
-SDL_Renderer* SGameApp::renderer;
-SDL_Event SGameApp::events;
-SGameApp* gIns = nullptr;
+SGameApp* gInstance = nullptr;
 
 SGameApp::SGameApp(int argc, char* argv[])
 {
-	gIns = this;
-
+	gInstance = this;
+	if (!init("SDL2", 640, 480))
+	{
+		SDL_Log("Create an application failed!");
+	}
 }
 
 SGameApp::~SGameApp()
 {
-	gIns = nullptr;
+	gInstance = nullptr;
 }
 
 SGameApp* SGameApp::instance()
 {
-	if (!gIns)
+	if (!gInstance)
 	{
-		SDL_Log("Create an application example first!");
-		SDL_assert(gIns != nullptr);
+		SDL_Log("Create an application instance first!");
+		SDL_assert(gInstance != nullptr);
 	}
-	return gIns;
+	return gInstance;
 }
 
-int SGameApp::exec()
-{
-	Uint32 startTime = 0;
-	while (isRunning)
-	{
-		startTime = SDL_GetTicks();
-		SDL_SetRenderDrawColor(renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
-		SDL_RenderClear(renderer);
 
-		update();
-		render();
-		handleEvents();
-
-		SDL_RenderPresent(renderer);
-		//SDL_Log("times %u", SDL_GetTicks() - startTime);
-
-	}
-	clean();
-
-	bool ret = _CrtDumpMemoryLeaks();
-	if (ret)
-	{
-		_STL_ASSERT(ret == false, "Have a memory leak");
-	}
-	return 0;
-}
 
 bool SGameApp::init(const std::string& title, int w, int h)
 {
-	if (isRunning)
-	{
-		SDL_Log("game already init!\n");
-		return true;
-	}
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0 && IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)
 		&& TTF_Init() == 0)
 	{
 		SDL_Log("game init!\n");
 		//创建窗口
-		window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN);
-		if (window)
+		window_ = SDL_CreateWindow(title.c_str(),SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,w, h, SDL_WINDOW_SHOWN);
+		if (window_)
 		{
 			SDL_Log("window created!\n");
 		}
 
 		//创建渲染器
-		renderer = SDL_CreateRenderer(window, -1, 0);
-		if (renderer)
+		renderer_ = SDL_CreateRenderer(window_, -1, 0);
+		if (renderer_)
 		{
 			SDL_Log("renderer created!\n");
 		}
-		isRunning = true;
+		isRunning_ = true;
 	}
 	else
 	{
-		isRunning = false;
+		isRunning_ = false;
 	}
-
 	
 	for (int i = 0; i < 5; i++)
 	{
@@ -101,7 +69,7 @@ bool SGameApp::init(const std::string& title, int w, int h)
 
 		btn->clicked.connect([=]() 
 			{
-				SDL_Log("button clicked %d", i); 
+				
 			});
 		btn->pressed.connect([=] {SDL_Log("button released %d", i); });
 		btn->setText(u8"顽石" + std::to_string(i));	
@@ -121,12 +89,12 @@ bool SGameApp::init(const std::string& title, int w, int h)
 		->move(0,400)
 		->setFixedSize(32,32);
 
-	//auto sbtn = sApp->GUIManager()->addWidget(new SSwitchButton);
-	//sbtn->move(100, 350);
-	//sbtn->setText(u8"声音");
-	////sbtn->onSwitchChanged = [=](bool state) {slider1->setVisible(state); };
-	////sbtn->onSwitchChanged = std::bind(&SSlider::setVisible,slider1,std::placeholders::_1);
-	//sbtn->switchChanged.connect(Bind_Args_1(slider1, &SSlider::setVisible));
+	auto sbtn = sApp->GUIManager()->addWidget(new SSwitchButton);
+	sbtn->move(100, 350);
+	sbtn->setText(u8"声音");
+	//sbtn->onSwitchChanged = [=](bool state) {slider1->setVisible(state); };
+	//sbtn->onSwitchChanged = std::bind(&SSlider::setVisible,slider1,std::placeholders::_1);
+	sbtn->switchChanged.connect(Bind_Args_1(slider1, &SSlider::setVisible));
 
 	auto btn = sApp->GUIManager()->addWidget(new SButton("assets/images/play.png", "assets/images/play-hover.png"));
 	btn->move(100, 100);
@@ -143,7 +111,7 @@ bool SGameApp::init(const std::string& title, int w, int h)
 	btn1->released.connect([=] 
 		{
 		});
-	return isRunning;
+	return isRunning_;
 }
 
 void SGameApp::clean()
@@ -152,8 +120,8 @@ void SGameApp::clean()
 	delete STextureManager::instance();
 	delete SGUIManager::instance();
 
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window_);
+	SDL_DestroyRenderer(renderer_);
 	IMG_Quit();
 	TTF_Quit();
 	SDL_Quit();
@@ -173,15 +141,40 @@ void SGameApp::render()
 
 void SGameApp::handleEvents()
 {
-	if (SDL_PollEvent(&events))
+	if (SDL_PollEvent(&events_))
 	{
-		if (events.type == SDL_QUIT)
+		if (events_.type == SDL_QUIT)
 		{
 			quit();
 		}
-		sApp->GUIManager()->event(&events);
+		sApp->GUIManager()->event(&events_);
 	}
 }
 
 
+int SGameApp::exec()
+{
+	Uint32 startTime = 0;
+	while (running())
+	{
+		startTime = SDL_GetTicks();
+		SDL_SetRenderDrawColor(renderer_, 250, 250, 250, SDL_ALPHA_OPAQUE);
+		SDL_RenderClear(renderer_);
 
+		update();
+		render();
+		handleEvents();
+
+		SDL_RenderPresent(renderer_);
+		//SDL_Log("times %u", SDL_GetTicks() - startTime);
+
+	}
+	clean();
+
+	bool ret = _CrtDumpMemoryLeaks();
+	if (ret)
+	{
+		_STL_ASSERT(ret == false, "Have a memory leak");
+	}
+	return 0;
+}

@@ -71,7 +71,7 @@ void SLineEdit::clear()
 
 void SLineEdit::paintEvent()
 {
-	SPainter painter(SGameApp::renderer);
+	SPainter painter(sApp->renderer_);
 	//设置字体，必须设置
 	painter.setFont(d->font);
 	//绘制边框

@@ -27,7 +27,7 @@ SDL_Texture* STextureManager::loadTexture(const std::string& filename)
 		SDL_Log("surface load faild:%s", SDL_GetError());
 		return nullptr;
 	}
-	auto tex = SDL_CreateTextureFromSurface(SGameApp::renderer, sfc);
+	auto tex = SDL_CreateTextureFromSurface(sApp->renderer_, sfc);
 	SDL_FreeSurface(sfc);
 	return tex;
 }
@@ -57,7 +57,7 @@ SDL_Texture* STextureManager::loadText(const std::string& text, const SFont& fon
 		SDL_Log("TTF_Render faild:%s", SDL_GetError());
 		return nullptr;
 	}
-	auto tex = SDL_CreateTextureFromSurface(SGameApp::renderer, sfc);
+	auto tex = SDL_CreateTextureFromSurface(sApp->renderer_, sfc);
 	SDL_FreeSurface(sfc);
 	return tex;
 }
@@ -82,7 +82,7 @@ SDL_Texture* STextureManager::cacheText(const std::string& text, const SFont& fo
 
 void STextureManager::drawTexture(SDL_Texture* tex, SDL_Rect* dstRect)
 {
-	SDL_RenderCopy(SGameApp::renderer, tex, NULL, dstRect);
+	SDL_RenderCopy(sApp->renderer_, tex, NULL, dstRect);
 }
 
 void STextureManager::drawTexture(SDL_Texture* tex, const SDL_Rect& dstRect)
@@ -104,7 +104,7 @@ void STextureManager::drawTexture(SDL_Texture* tex, int x, int y)
 
 void STextureManager::drawTexture(SDL_Texture* tex, const SDL_Rect* srcRect, const SDL_Rect* dstRect)
 {
-	SDL_RenderCopy(SGameApp::renderer, tex, srcRect, dstRect);
+	SDL_RenderCopy(sApp->renderer_, tex, srcRect, dstRect);
 }
 
 int STextureManager::width(SDL_Texture* tex)

@@ -32,7 +32,7 @@ void SString::push_back(const char* s)
 	if (!s)
 		return;
 
-	int len = strlen(s);
+	size_t len = strlen(s);
 	if (len == 0)
 		return;
 

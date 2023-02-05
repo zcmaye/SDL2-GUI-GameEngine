@@ -12,6 +12,7 @@ struct SWidgetPrivate
 	uint8_t isVisible : 1;		//可见
 	uint8_t isHovered : 1;		//鼠标悬停在空间上
 	uint8_t kFocus : 1;			//键盘焦点
+	SGUI::FocusPolicy focusPolicy = SGUI::ClickFocus;
 
 	int x = 0;
 	int y = 0;
@@ -21,7 +22,7 @@ struct SWidgetPrivate
 	SColor bColor;
 	SColor fColor;
 	SColor hColor;
-	SFont	 font = SFont("微软雅黑",16);
+	SFont  font = SFont("微软雅黑",16);
 
 
 	SWidgetPrivate()
@@ -61,8 +62,9 @@ public:
 	bool contains(const SDL_Point& point);
 
 	inline bool focus()const { return d->kFocus; }
-	inline RETRUN_TYPE setFocus() { d->kFocus = true; RETURN_VALUE;};
+	inline RETRUN_TYPE setFocus(SGUI::FocusPolicy reason) {if(d->focusPolicy & reason) d->kFocus = true; RETURN_VALUE;};
 	inline RETRUN_TYPE clearFocus() { d->kFocus = false; RETURN_VALUE;};
+	inline void setFocusPlicy(SGUI::FocusPolicy policy) { d->focusPolicy = policy; }
 
 	inline int& rx() { return d->x; }
 	inline int& ry() { return d->y; }
@@ -86,20 +88,20 @@ public:
 	inline SFont font()const { return d->font; };
 
 	virtual bool event(SDL_Event* ev);
-	virtual void paintEvent();
 protected:
-	virtual void mousePressEvent(SDL_MouseButtonEvent* ev);
-	virtual void mouseReleaseEvent(SDL_MouseButtonEvent* ev);
-	virtual void mouseMoveEvent(SDL_MouseMotionEvent* ev);
-	virtual void mouseWheelEvent(SDL_MouseWheelEvent* ev);
-	virtual void mouseDoubleClickEvent(SDL_MouseButtonEvent *ev);
+	virtual void paintEvent();
+	virtual void mousePressEvent(SDL_MouseButtonEvent* ev) {};
+	virtual void mouseReleaseEvent(SDL_MouseButtonEvent* ev) {};
+	virtual void mouseMoveEvent(SDL_MouseMotionEvent* ev) {};
+	virtual void mouseWheelEvent(SDL_MouseWheelEvent* ev) {};
+	virtual void mouseDoubleClickEvent(SDL_MouseButtonEvent *ev) {};
 
-	virtual void keyPressEvent(SDL_KeyboardEvent* ev);
-	virtual void keyReleaseEvent(SDL_KeyboardEvent* ev);
+	virtual void keyPressEvent(SDL_KeyboardEvent* ev) {};
+	virtual void keyReleaseEvent(SDL_KeyboardEvent* ev) {};
 
-	virtual void resizeEvent(SResizeEvent* ev);
+	virtual void resizeEvent(SResizeEvent* ev) {};
 	virtual void moveEvent(SDL_Event* ev) {};
-	virtual void showEvent(SDL_WindowEvent* ev);
+	virtual void showEvent(SDL_WindowEvent* ev) {};
 
 	std::unique_ptr<SWidgetPrivate> d;
 };
